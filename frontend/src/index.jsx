@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import HomeView from './containers/home-view/index.jsx';
+import RootView from './containers/root-view/index.jsx';
 
 ReactDOM.render(
-    <HomeView />,
+    <RootView />,
     document.getElementById('root')
 )
