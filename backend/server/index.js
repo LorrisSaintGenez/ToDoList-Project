@@ -1,24 +1,31 @@
-const loopback = require('loopback')
-const path = require('path')
-const bodyParser = require('body-parser')
-const fs = require('fs');
+const loopback = require('loopback');
+const boot = require('loopback-boot');
+const path = require('path');
+const app = module.exports = loopback();
 
-const app = loopback();
-
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header("Access-Control-Allow-Methods", "GET, POST, DELETE");
-  next();
-});
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.start = function() {
+  // start the web server
+  return app.listen(function() {
+    app.emit('started');
+    const baseUrl = app.get('url').replace(/\/$/, '');
+    console.log('Web server listening at: %s', baseUrl);
+    if (app.get('loopback-component-explorer')) {
+      const explorerPath = app.get('loopback-component-explorer').mountPath;
+      console.log('Browse your REST API at %s%s', baseUrl, explorerPath);
+    }
+  });
+};
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../../frontend/public/index.html'))
 });
 
+// Bootstrap the application, configure models, datasources and middleware.
+// Sub-apps like REST API are mounted via boot scripts.
+boot(app, __dirname, function(err) {
+  if (err) throw err;
 
-app.listen(4242, () => {
-  console.log('Listening on 4242');
-})
+  // start the server if `$ node server.js`
+  if (require.main === module)
+    app.start();
+});
