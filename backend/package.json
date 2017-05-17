@@ -1,0 +1,22 @@
+{
+  "name": "EPIPIC",
+  "version": "1.0.0",
+  "main": "server/index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server/index.js",
+    "fast-reload": "nodemon server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LorrisSaintGenez/Javascript-TP1"
+  },
+  "dependencies": {
+    "body-parser": "1.17.1",
+    "loopback": "^3.8.0",
+    "loopback-component-explorer": "^4.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "1.11.0"
+  }
+}
