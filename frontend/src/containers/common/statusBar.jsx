@@ -1,12 +1,20 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
 
-export default class StatusBar extends Component {
+class StatusBar extends Component {
 
   constructor(props) {
     super(props);
 
     this.state = {};
+  }
+
+  logoutAction() {
+    this.props.dispatch({
+      type: 'LOGOUT_ACT',
+      token: null
+    });
   }
 
   render() {
@@ -22,7 +30,7 @@ export default class StatusBar extends Component {
         height: "50px"
       },
       linkStyle: {
-        marginRight: "15px"
+        marginLeft: "20px"
       }
     };
 
@@ -31,13 +39,25 @@ export default class StatusBar extends Component {
         <Link to="/" style={styles.linkStyle}>
           Home
         </Link>
-        <Link to="/login" style={styles.linkStyle}>
-          Connection
-        </Link>
-        <Link to="/signup">
-          Sign up
-        </Link>
+        {this.props.token === null ? (
+            <Link to="/login" style={styles.linkStyle}>
+              Sign In / Sign Up
+            </Link>
+          ): (
+            <Link to="/" style={styles.linkStyle} onClick={() => this.logoutAction()}>
+              Logout
+            </Link>
+          )
+        }
       </div>
     );
   }
 }
+const mapStateToProps = (store, router) => {
+  return {
+    token: store.token,
+    router: router
+  }
+};
+
+export default connect(mapStateToProps)(StatusBar);

@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import StatusBar from "../common/statusBar.jsx";
 
-export default class ProfilView extends Component {
+class ProfilView extends Component {
 
   constructor(props) {
     super(props);
@@ -10,8 +12,22 @@ export default class ProfilView extends Component {
   }
 
   render() {
+
+    const styles = {
+      profilView: {
+        left: "0px",
+        top: "0px",
+        position: "absolute",
+        width: "100%"
+      }
+    }
+
+    if (this.props.token === null)
+      this.props.router.router.push('/');
+
     return (
-      <div>
+      <div style={styles.profilView}>
+        <StatusBar dispatch={this.props.dispatch}/>
         Bienvenue sur la page profil !
         <br/>
         <Link to='/'>
@@ -21,3 +37,11 @@ export default class ProfilView extends Component {
     );
   }
 }
+const mapStateToProps = (store, router) => {
+  return {
+    token: store.token,
+    router: router
+  }
+};
+
+export default connect(mapStateToProps)(ProfilView);
