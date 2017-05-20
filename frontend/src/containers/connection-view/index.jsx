@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import StatusBar from "../common/statusBar.jsx";
-import SigninComponent from "../../components/connection/signinComponent.jsx";
-import SignupComponent from "../../components/connection/signupComponent.jsx";
 import { connect } from 'react-redux';
+
+import ConnectionComponent from "../../components/connection/connectionComponent.jsx";
 
 class ConnectionView extends Component {
 
@@ -37,8 +37,8 @@ class ConnectionView extends Component {
       <div style={styles.connectionViewStyle}>
         <StatusBar dispatch={this.props.dispatch}/>
         <div style={styles.contentStyle}>
-          <SigninComponent dispatch={this.props.dispatch} router={this.props.router.router} />
-          <SignupComponent />
+          <ConnectionComponent isSignup={false} dispatch={this.props.dispatch} router={this.props.router.router} />
+          <ConnectionComponent isSignup={true} />
         </div>
       </div>
     );

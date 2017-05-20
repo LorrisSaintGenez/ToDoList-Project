@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 
-import {addConnection} from '../../actions/authentication.js';
+import {addConnection, loginConnection} from '../../actions/authentication.js';
 
-export default class SignupComponent extends Component {
+export default class ConnectionComponent extends Component {
 
   constructor(props) {
     super(props);
@@ -29,20 +29,33 @@ export default class SignupComponent extends Component {
       this.setState({error: true});
   }
 
-  handleMailSignUp(email) {
+  signinConnection() {
+    let signinInformations = {
+      email: this.state.email,
+      password: this.state.password
+    };
+    let res = JSON.parse(loginConnection(signinInformations));
+    this.props.dispatch({
+      type: 'LOGIN_ACT',
+      token: res.id
+    });
+    this.props.router.push('/profil');
+  }
+
+  handleMail(email) {
     if (this.state.error)
       this.setState({error: false});
     this.setState({email: email});
   }
 
-  handlePasswordSignUp(password) {
+  handlePassword(password) {
     this.setState({password: password});
   }
 
   render() {
 
     const styles = {
-      signupStyle: {
+      connectionStyle: {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -59,22 +72,22 @@ export default class SignupComponent extends Component {
     let REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     return (
-      <div style={styles.signupStyle}>
-        <span style={styles.spanStyle}>{this.state.success ? "Account created !" : "New ? Create an account !"}</span>
+      <div style={styles.connectionStyle}>
+        <span style={styles.spanStyle}>{this.props.isSignup ? (this.state.success ? "Account created !" : "New ? Create an account !") : "Log in your account"}</span>
         <TextField
           type="email"
           hintText="Enter your email"
-          errorText={this.state.error ? "Email already used" : ""}
-          onChange={(e) => this.handleMailSignUp(e.target.value)} />
+          errorText={this.state.error ? (this.props.isSignup ? "Email already used" : "Wrong combinaison email/password") : ""}
+          onChange={(e) => this.handleMail(e.target.value)} />
         <TextField
           type="password"
           hintText="Enter your password"
-          onChange={(e) => this.handlePasswordSignUp(e.target.value)} />
+          onChange={(e) => this.handlePassword(e.target.value)} />
         <FlatButton
-          label="Sign up"
+          label={this.props.isSignup ? "Sign up" : "Sign in"}
           primary={true}
           disabled={this.state.email === '' || this.state.password === '' || !this.state.email.match(REGEXP) }
-          onClick={() => this.signupConnection()} />
+          onClick={() => this.props.isSignup ? this.signupConnection() : this.signinConnection()} />
       </div>
     );
   }
