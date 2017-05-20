@@ -2,12 +2,40 @@ import React, {Component} from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
+import _ from 'lodash';
+import FlatButton from 'material-ui/FlatButton';
+
 class StatusBar extends Component {
 
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      linkButtonLogOff: [
+        {
+          name: "Home",
+          path: "/"
+        },
+        {
+          name: "Sign In / Sign Up",
+          path: "/login"
+        }
+      ],
+      linkButtonLogOn: [
+        {
+          name: "Home",
+          path: "/"
+        },
+        {
+          name: "My profile",
+          path: "/profile"
+        },
+        {
+          name: "Logout",
+          path: '/'
+        }
+      ]
+    };
   }
 
   logoutAction() {
@@ -29,26 +57,24 @@ class StatusBar extends Component {
         backgroundColor: 'grey',
         height: "50px"
       },
-      linkStyle: {
+      flatButtonStyle: {
         marginLeft: "20px"
       }
     };
 
+    console.log(this.props.token);
+
     return (
       <div style={styles.banner}>
-        <Link to="/" style={styles.linkStyle}>
-          Home
-        </Link>
-        {this.props.token === null ? (
-            <Link to="/login" style={styles.linkStyle}>
-              Sign In / Sign Up
-            </Link>
-          ): (
-            <Link to="/" style={styles.linkStyle} onClick={() => this.logoutAction()}>
-              Logout
-            </Link>
-          )
-        }
+        {_.map((this.props.token === null ? this.state.linkButtonLogOff : this.state.linkButtonLogOn), (item, index) => {
+          return (
+            <FlatButton style={styles.flatButtonStyle}>
+              <Link to={item.path} onClick={index === 2 && this.props.token !== null ? (() => this.logoutAction()) : null} >
+                {item.name}
+              </Link>
+            </FlatButton>
+          );
+        })}
       </div>
     );
   }

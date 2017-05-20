@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router';
 
 import StatusBar from '../common/statusBar.jsx';
 import { connect } from 'react-redux';
@@ -25,18 +24,9 @@ class HomeView extends Component {
     return (
       <div style={styles.homeView}>
         <StatusBar dispatch={this.props.dispatch}/>
-        Bienvenue sur la ToDoList Collaborative !
-        <br/>
-        {this.props.token !== null ? (
-          <Link to='/profil'>
-            <button>Aller sur la page profil</button>
-          </Link>
-        )
-          : (
-             <span>You need to be logged to access the website</span>
-          )}
+        Welcome on ToDoList !
       </div>
-    );1
+    );
   }
 }
 

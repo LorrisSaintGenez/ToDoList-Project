@@ -35,11 +35,15 @@ export default class ConnectionComponent extends Component {
       password: this.state.password
     };
     let res = JSON.parse(loginConnection(signinInformations));
-    this.props.dispatch({
-      type: 'LOGIN_ACT',
-      token: res.id
-    });
-    this.props.router.push('/profil');
+    if (res) {
+      this.props.dispatch({
+        type: 'LOGIN_ACT',
+        token: res.id
+      });
+      this.props.router.push('/profile');
+    }
+    else
+      this.setState({error: true})
   }
 
   handleMail(email) {
@@ -77,7 +81,7 @@ export default class ConnectionComponent extends Component {
         <TextField
           type="email"
           hintText="Enter your email"
-          errorText={this.state.error ? (this.props.isSignup ? "Email already used" : "Wrong combinaison email/password") : ""}
+          errorText={this.state.error ? (this.props.isSignup ? "Email already used" : "Wrong combination email/password") : ""}
           onChange={(e) => this.handleMail(e.target.value)} />
         <TextField
           type="password"
