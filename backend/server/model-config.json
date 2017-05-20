@@ -34,5 +34,13 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "board": {
+    "dataSource": "todolist",
+    "public": true
+  },
+  "itemBoard": {
+    "dataSource": "todolist",
+    "public": true
   }
 }
