@@ -64,7 +64,14 @@ export default class ConnectionComponent extends Component {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        width: "100%"
+        width: "100%",
+        border: "1px solid black",
+        padding: "10px",
+        marginRight: "10px",
+        borderRadius: "5px",
+        backgroundColor: "#ffffff",
+        border: "solid 1px #dddce1",
+        boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.13)"
       },
       spanStyle: {
         fontSize: "18px",

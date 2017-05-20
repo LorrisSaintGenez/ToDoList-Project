@@ -45,6 +45,10 @@ class StatusBar extends Component {
     });
   }
 
+  simulateAnchor(anchor) {
+    window.location.href = "#"+anchor;
+  }
+
   render() {
 
     const styles = {
@@ -54,10 +58,13 @@ class StatusBar extends Component {
         justifyContent: "flex-start",
         alignItems: "center",
         width: "100%",
-        backgroundColor: 'grey',
-        height: "50px"
+        backgroundColor: "#959fa9",//'grey',
+        height: "50px",
+        borderBottom: "solid 1px #dddce1",
+        boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.13)"
       },
       flatButtonStyle: {
+
         marginLeft: "20px"
       }
     };
@@ -68,10 +75,13 @@ class StatusBar extends Component {
       <div style={styles.banner}>
         {_.map((this.props.token === null ? this.state.linkButtonLogOff : this.state.linkButtonLogOn), (item, index) => {
           return (
-            <FlatButton style={styles.flatButtonStyle}>
-              <Link to={item.path} onClick={index === 2 && this.props.token !== null ? (() => this.logoutAction()) : null} >
-                {item.name}
-              </Link>
+            <FlatButton
+              style={styles.flatButtonStyle}
+              label={item.name}
+              hoverColor="#f0f8ff"
+              onClick={ index === 2 && this.props.token !== null
+                ? (() => this.logoutAction())
+                : (() => this.simulateAnchor(item.path)) } >
             </FlatButton>
           );
         })}
