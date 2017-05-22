@@ -33,6 +33,7 @@ class HomeView extends Component {
 const mapStateToProps = (store, router) => {
   return {
     token: store.token,
+    userid: store.userid,
     router: router
   }
 };

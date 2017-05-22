@@ -10,6 +10,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 import HomeView from '../home-view/index.jsx'
 import ProfileView from '../profile-view/index.jsx'
 import ConnectionView from '../connection-view/index.jsx'
+import MyListView from '../mylist-view/index.jsx';
 
 class RootView extends Component {
 
@@ -25,11 +26,20 @@ class RootView extends Component {
       }
     });
 
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const token = decodedCookie ? decodedCookie.split(';')[0].split('=')[1] : null;
+    const userid = decodedCookie ? decodedCookie.split(';')[1].split('=')[1] : null;
+
+    if (this.props.token === null)
+      if (token)
+        this.props.dispatch({ type: 'LOGIN_ACT', auth: {token: token, userid: userid} });
+
     const routes =
       <Route>
         <Route exact path='/' component={HomeView} />
         <Route path='/profile' component={ProfileView} />
         <Route path='/login' component={ConnectionView} />
+        <Route path='/list' component={MyListView} />
       </Route>;
 
     return (
@@ -45,6 +55,7 @@ class RootView extends Component {
 const mapStateToProps = (store, router) => {
   return {
     token: store.token,
+    userid: store.userid,
     router: router
   }
 };

@@ -6,28 +6,26 @@ class ProfileView extends Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {};
   }
 
   render() {
 
     const styles = {
-      profilView: {
+      profileView: {
         left: "0px",
         top: "0px",
         position: "absolute",
         width: "100%"
       }
-    }
+    };
 
     if (this.props.token === null)
       this.props.router.router.push('/');
 
     return (
-      <div style={styles.profilView}>
+      <div style={styles.profileView}>
         <StatusBar dispatch={this.props.dispatch}/>
-        This is your account !
+        Profile page
       </div>
     );
   }
@@ -35,6 +33,7 @@ class ProfileView extends Component {
 const mapStateToProps = (store, router) => {
   return {
     token: store.token,
+    userid: store.userid,
     router: router
   }
 };

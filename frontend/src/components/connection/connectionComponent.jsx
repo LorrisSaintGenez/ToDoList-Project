@@ -10,43 +10,63 @@ export default class ConnectionComponent extends Component {
     super(props);
 
     this.state = {
+      pseudo: "",
       email: "",
       password: "",
       error: false,
+      errorPseudo: false,
       success: false
     };
   }
 
   signupConnection() {
+    this.props.onLoadingConnectionOn();
     let signupInformations = {
+      username: this.state.pseudo,
       email: this.state.email,
       password: this.state.password
     };
-    let res = addConnection(signupInformations);
-    if (res)
+    let res = JSON.parse(addConnection(signupInformations));
+    if (!res.error)
       this.setState({success: true});
+    else if (res.error.details.messages.username)
+      this.setState({errorPseudo: true});
     else
       this.setState({error: true});
+    this.props.onLoadingConnectionOff();
   }
 
   signinConnection() {
+    this.props.onLoadingConnectionOn();
     let signinInformations = {
       email: this.state.email,
       password: this.state.password
     };
     let res = JSON.parse(loginConnection(signinInformations));
     if (res) {
-      this.props.dispatch({
-        type: 'LOGIN_ACT',
-        token: res.id
-      });
+      document.cookie = "token=" + res.id;
+      document.cookie = "id=" + res.userId;
+      this.props.dispatch({ type: 'LOGIN_ACT', auth: {token: res.id, userid: res.userId} });
+      this.props.onLoadingConnectionOff();
       this.props.router.push('/profile');
     }
-    else
-      this.setState({error: true})
+    else {
+      this.setState({error: true});
+      this.props.onLoadingConnectionOff();
+    }
+  }
+
+  handlePseudo(pseudo) {
+    if (this.state.success)
+      this.setState({success: false});
+    if (this.state.errorPseudo)
+      this.setState({errorPseudo: false});
+    this.setState({pseudo: pseudo});
   }
 
   handleMail(email) {
+    if (this.state.success)
+      this.setState({success: false});
     if (this.state.error)
       this.setState({error: false});
     this.setState({email: email});
@@ -65,7 +85,6 @@ export default class ConnectionComponent extends Component {
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
-        border: "1px solid black",
         padding: "10px",
         marginRight: "10px",
         borderRadius: "5px",
@@ -85,6 +104,13 @@ export default class ConnectionComponent extends Component {
     return (
       <div style={styles.connectionStyle}>
         <span style={styles.spanStyle}>{this.props.isSignup ? (this.state.success ? "Account created !" : "New ? Create an account !") : "Log in your account"}</span>
+        {this.props.isSignup ? (
+          <TextField
+            type="text"
+            hintText="Enter your pseudo"
+            errorText={this.state.errorPseudo ? "Pseudo already used" : ""}
+            onChange={(e) => this.handlePseudo(e.target.value)} />
+        ) : null}
         <TextField
           type="email"
           hintText="Enter your email"
@@ -97,8 +123,8 @@ export default class ConnectionComponent extends Component {
         <FlatButton
           label={this.props.isSignup ? "Sign up" : "Sign in"}
           primary={true}
-          disabled={this.state.email === '' || this.state.password === '' || !this.state.email.match(REGEXP) }
-          onClick={() => this.props.isSignup ? this.signupConnection() : this.signinConnection()} />
+          disabled={this.state.email === '' || this.state.password === '' || (this.state.pseudo === '' && this.props.isSignup) || !this.state.email.match(REGEXP) }
+          onClick={this.props.isSignup ? () => this.signupConnection() : () => this.signinConnection()} />
       </div>
     );
   }

@@ -27,6 +27,10 @@ class StatusBar extends Component {
           path: "/"
         },
         {
+          name: "My lists",
+          path: "/list"
+        },
+        {
           name: "My profile",
           path: "/profile"
         },
@@ -39,10 +43,9 @@ class StatusBar extends Component {
   }
 
   logoutAction() {
-    this.props.dispatch({
-      type: 'LOGOUT_ACT',
-      token: null
-    });
+    document.cookie = "token=";
+    document.cookie = "id=";
+    this.props.dispatch({ type: 'LOGOUT_ACT' });
   }
 
   simulateAnchor(anchor) {
@@ -64,22 +67,24 @@ class StatusBar extends Component {
         boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.13)"
       },
       flatButtonStyle: {
-
-        marginLeft: "20px"
+        marginLeft: "20px",
+      },
+      flatButtonLabel: {
+        color: "#FFFFFF"
       }
     };
-
-    console.log(this.props.token);
 
     return (
       <div style={styles.banner}>
         {_.map((this.props.token === null ? this.state.linkButtonLogOff : this.state.linkButtonLogOn), (item, index) => {
           return (
             <FlatButton
+              key={index}
               style={styles.flatButtonStyle}
               label={item.name}
-              hoverColor="#f0f8ff"
-              onClick={ index === 2 && this.props.token !== null
+              labelStyle={styles.flatButtonLabel}
+              hoverColor="rgb(181, 192, 202)"
+              onClick={ index === 3 && this.props.token !== null
                 ? (() => this.logoutAction())
                 : (() => this.simulateAnchor(item.path)) } >
             </FlatButton>
@@ -92,6 +97,7 @@ class StatusBar extends Component {
 const mapStateToProps = (store, router) => {
   return {
     token: store.token,
+    userid: store.userid,
     router: router
   }
 };

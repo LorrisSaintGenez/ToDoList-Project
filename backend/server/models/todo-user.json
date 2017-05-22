@@ -1,28 +1,22 @@
 {
-  "name": "board",
-  "plural": "boards",
-  "base": "PersistedModel",
+  "name": "todoUser",
+  "plural": "todoUsers",
+  "base": "User",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "name": {
+    "email": {
       "type": "string",
       "required": true
     },
-    "owner": {
-      "type": "number",
+    "username": {
+      "type": "string",
       "required": true
     },
-    "isGlobal": {
-      "type": "boolean",
+    "password": {
       "required": true
-    },
-    "authorizedUsers": {
-      "type": [
-        "array"
-      ]
     }
   },
   "validations": [],

@@ -42,5 +42,9 @@
   "itemBoard": {
     "dataSource": "todolist",
     "public": true
+  },
+  "todoUser": {
+    "dataSource": "todolist",
+    "public": true
   }
 }
