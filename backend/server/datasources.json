@@ -4,13 +4,13 @@
     "connector": "memory"
   },
   "todolist": {
-    "host": "featbeat.czn8fdh7nm0p.eu-west-2.rds.amazonaws.com",
+    "host": "localhost",
     "port": 3306,
     "url": "",
     "database": "ToDoList",
-    "password": "mti2018",
-    "name": "featbeat",
-    "user": "todolistrw",
+    "password": "password",
+    "name": "todolist",
+    "user": "root",
     "connector": "mysql"
   }
 }

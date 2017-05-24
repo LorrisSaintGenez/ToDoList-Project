@@ -57,12 +57,12 @@ class StatusBar extends Component {
     const styles = {
       banner: {
         display: "flex",
-        flexDirection: "row",
-        justifyContent: "flex-start",
+        flexFlow: "row wrap",
+        justifyContent: "center",
         alignItems: "center",
         width: "100%",
         backgroundColor: "#959fa9",//'grey',
-        height: "50px",
+        minHeight: "50px",
         borderBottom: "solid 1px #dddce1",
         boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.13)"
       },
