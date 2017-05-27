@@ -76,12 +76,9 @@ class DialogComponent extends Component {
       addNewBoard: {
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        border: "solid 1px #dddce1",
-        boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.13)",
-        backgroundColor: "#ffffff",
-        padding: "20px 30px",
+        //justifyContent: "left",
+        //alignItems: "center",
+        marginLeft: "40px",
         color: "rgb(0, 188, 212)"
       },
       checkBoxStyle: {
@@ -90,6 +87,9 @@ class DialogComponent extends Component {
       },
       chipInputStyle: {
         width: "80%",
+      },
+      floatingButtonStyle: {
+        boxShadow: "none"
       }
     };
 
@@ -104,10 +104,10 @@ class DialogComponent extends Component {
 
     return (
       <div style={styles.addNewBoard}>
-        <FloatingActionButton onTouchTap={() => this.onDialogOpen()}>
+        <h1>Boards</h1>
+        <FloatingActionButton onTouchTap={() => this.onDialogOpen()} style={styles.floatingButtonStyle}>
           <ContentAdd />
         </FloatingActionButton>
-        <h3>Create a new board</h3>
         <Dialog
           title="New board"
           actions={actions}

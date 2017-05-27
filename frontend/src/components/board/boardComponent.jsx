@@ -19,9 +19,9 @@ class BoardComponent extends Component {
         display: "flex",
         flexFlow: "row wrap",
         alignItems: "flex-start",
-        justifyContent: "center",
+        //justifyContent: "center",
         width: "100%",
-        margin: "50px"
+        margin: "30px"
       },
       eachListStyle: {
         margin: "0px 25px 50px 25px",
@@ -31,7 +31,7 @@ class BoardComponent extends Component {
         color: "rgb(0, 188, 212)",
         width: "300px",
         textAlign: "center",
-        height: "500px"
+        height: "100%"
       },
       authorizedStyle: {
         display: "flex",
@@ -41,6 +41,12 @@ class BoardComponent extends Component {
         display: "flex",
         flexDirection: "row",
         overflowX: "auto"
+      },
+      chipStyle: {
+        margin: "5px"
+      },
+      textColor: {
+        color: "#5f5f5f"
       }
     };
 
@@ -52,11 +58,11 @@ class BoardComponent extends Component {
               <h2>{list.name}</h2>
               {list.authorizedUsers.length > 0 ?
                 (<div>
-                  <h3>Authorized persons : </h3>
+                  <h3 style={styles.textColor}>shared with : </h3>
                   <div style={styles.authorizedUsersStyle}>
                   {_.map(list.authorizedUsers, (user, i) => {
                     return (
-                      <Chip key={i}>
+                      <Chip key={i} style={styles.chipStyle}>
                         <Avatar size={32}>{(user[0].toUpperCase())}</Avatar>
                         {user}
                       </Chip>
@@ -64,7 +70,7 @@ class BoardComponent extends Component {
                   })}
                   </div>
                 </div>)
-                : null}
+                : <h3 style={styles.textColor}>personnal board</h3>}
             </div>
           )})}
       </div>

@@ -38,8 +38,8 @@ class MyListView extends Component {
       newBoard: {
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
+        //justifyContent: "center",
+        //alignItems: "center",
         width: "100%"
       }
     };

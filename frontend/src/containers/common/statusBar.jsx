@@ -27,11 +27,11 @@ class StatusBar extends Component {
           path: "/"
         },
         {
-          name: "My lists",
+          name: "Boards",
           path: "/list"
         },
         {
-          name: "My profile",
+          name: "Profile",
           path: "/profile"
         },
         {
