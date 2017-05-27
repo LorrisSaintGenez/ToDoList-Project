@@ -19,6 +19,16 @@ class RootView extends Component {
     injectTapEventPlugin();
   }
 
+  getCookieValue(key) {
+    let regex = new RegExp('(?:(?:^|.*;\\s*)' + key + '\\s*\\=\\s*([^;]*).*$)|^.*$');
+    let value = document.cookie.replace(regex, "$1");
+
+    if (value !== "")
+      return value;
+    else
+      return null;
+  }
+
   render() {
     const muiTheme = getMuiTheme({
       palette: {
@@ -27,8 +37,8 @@ class RootView extends Component {
     });
 
     const decodedCookie = decodeURIComponent(document.cookie);
-    const token = decodedCookie ? decodedCookie.split(';')[0].split('=')[1] : null;
-    const userid = decodedCookie ? decodedCookie.split(';')[1].split('=')[1] : null;
+    const token = this.getCookieValue('token');
+    const userid = this.getCookieValue('id');
 
     if (this.props.token === null)
       if (token)
