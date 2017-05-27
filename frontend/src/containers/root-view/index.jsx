@@ -21,7 +21,8 @@ class RootView extends Component {
 
   getCookieValue(key) {
     let regex = new RegExp('(?:(?:^|.*;\\s*)' + key + '\\s*\\=\\s*([^;]*).*$)|^.*$');
-    let value = document.cookie.replace(regex, "$1");
+    const decodedCookie = decodeURIComponent(document.cookie);
+    let value = decodedCookie.replace(regex, "$1");
 
     if (value !== "")
       return value;
@@ -36,7 +37,6 @@ class RootView extends Component {
       }
     });
 
-    const decodedCookie = decodeURIComponent(document.cookie);
     const token = this.getCookieValue('token');
     const userid = this.getCookieValue('id');
 
