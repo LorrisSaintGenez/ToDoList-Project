@@ -22,6 +22,16 @@
       "type": "boolean",
       "required": true,
       "default": false
+    },
+    "authorName": {
+      "type": "string",
+      "required": true,
+      "default": ""
+    },
+    "contentType": {
+      "type": "string",
+      "required": true,
+      "default": "text"
     }
   },
   "validations": [],

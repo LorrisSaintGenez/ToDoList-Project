@@ -11,6 +11,7 @@ import HomeView from '../home-view/index.jsx'
 import ProfileView from '../profile-view/index.jsx'
 import ConnectionView from '../connection-view/index.jsx'
 import MyListView from '../mylist-view/index.jsx';
+import BoardView from '../board-view/index.jsx';
 
 class RootView extends Component {
 
@@ -50,6 +51,7 @@ class RootView extends Component {
         <Route path='/profile' component={ProfileView} />
         <Route path='/login' component={ConnectionView} />
         <Route path='/list' component={MyListView} />
+        <Route path='/list/:id' component={BoardView} />
       </Route>;
 
     return (

@@ -13,3 +13,11 @@ export const getBoardByOwnerId = userid => {
   xhttp.send();
   return xhttp.responseText;
 };
+
+export const getBoard = boardId => {
+  let xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "http://localhost:3000/api/boards/" + boardId, false);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send();
+  return xhttp.responseText;
+}
