@@ -36,8 +36,10 @@ class DialogComponent extends Component {
       userid: this.props.userid
     };
     let res = addBoard(boardInformation);
-    if (res)
+    if (res) {
       this.onDialogClose();
+      this.props.updateLists();
+    }
     else {
       this.setState({error: true})
     }
@@ -48,6 +50,8 @@ class DialogComponent extends Component {
   }
 
   onDialogClose() {
+    this.setState({isGlobal: false});
+    this.setState({authorizedUsers: []});
     this.setState({isDialogOpen: false})
     this.setState({isChecked: false});
   }
@@ -97,7 +101,7 @@ class DialogComponent extends Component {
       <FlatButton
         label="Create"
         primary={true}
-        disabled={this.state.name === "" || (this.state.isGlobal ? this.state.authorizedUsers.length === 0 : false)}
+        disabled={this.state.name === "" || this.state.name.length > 20 || (this.state.isGlobal ? this.state.authorizedUsers.length === 0 : false)}
         onTouchTap={() => this.onBoardCreate()}
       />
     ];

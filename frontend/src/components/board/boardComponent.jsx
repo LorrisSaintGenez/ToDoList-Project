@@ -6,6 +6,8 @@ import Avatar from 'material-ui/Avatar';
 
 import _ from 'lodash';
 
+import SingleBoardComponent from './singleBoardComponent.jsx';
+
 class BoardComponent extends Component {
 
   constructor(props) {
@@ -15,65 +17,35 @@ class BoardComponent extends Component {
   render() {
 
     const styles = {
-      displayListStyle: {
+      divListStyle: {
+        width: "49%",
+        display: "flex",
+        flexFlow: "column wrap",
+        alignItems: "flex-start",
+        borderRight: this.props.title === "Shared boards" ? "1px solid #757575" : null
+      },
+      eachTypeListStyle: {
         display: "flex",
         flexFlow: "row wrap",
-        alignItems: "flex-start",
-        //justifyContent: "center",
-        width: "100%",
-        margin: "30px"
+        justifyContent: "flex-start"
       },
-      eachListStyle: {
-        margin: "0px 25px 50px 25px",
-        border: "solid 1px #dddce1",
-        boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.13)",
-        backgroundColor: "#ffffff",
-        color: "rgb(0, 188, 212)",
-        width: "300px",
-        textAlign: "center",
-        height: "100%"
-      },
-      authorizedStyle: {
-        display: "flex",
-        flexDirection: "column"
-      },
-      authorizedUsersStyle: {
-        display: "flex",
-        flexDirection: "row",
-        overflowX: "auto"
-      },
-      chipStyle: {
-        margin: "5px"
-      },
-      textColor: {
-        color: "#5f5f5f"
+      titleStyle: {
+        marginLeft: "27px",
+        fontSize: "xx-large"
       }
     };
 
     return (
-      <div style={styles.displayListStyle}>
-        {_.map(this.props.userLists, (list, index) => {
-          return (
-            <div key={index} style={styles.eachListStyle}>
-              <h2>{list.name}</h2>
-              {list.authorizedUsers.length > 0 ?
-                (<div>
-                  <h3 style={styles.textColor}>shared with : </h3>
-                  <div style={styles.authorizedUsersStyle}>
-                  {_.map(list.authorizedUsers, (user, i) => {
-                    return (
-                      <Chip key={i} style={styles.chipStyle}>
-                        <Avatar size={32}>{(user[0].toUpperCase())}</Avatar>
-                        {user}
-                      </Chip>
-                    )
-                  })}
-                  </div>
-                </div>)
-                : <h3 style={styles.textColor}>personnal board</h3>}
+          <div style={styles.divListStyle}>
+            <h3 style={styles.titleStyle}>{this.props.title}</h3>
+            <div style={styles.eachTypeListStyle}>
+            {_.map(this.props.list, (listItem, index) => {
+              return (
+                <SingleBoardComponent list={listItem} key={index} />
+              );
+            })}
             </div>
-          )})}
-      </div>
+          </div>
     );
   }
 }

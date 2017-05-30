@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import StatusBar from "../common/statusBar.jsx";
+import FlatButton from 'material-ui/FlatButton';
 
+import StatusBar from "../common/statusBar.jsx";
 import UnitBoardComponent from '../../components/board/unitBoardComponent.jsx';
 
 import { getBoard } from '../../actions/board.js';
@@ -19,13 +20,11 @@ class BoardView extends Component {
   componentWillMount() {
     let res = JSON.parse(getBoard(this.props.params.id));
     this.setState({board: res});
-    //this.getBoards();
   }
 
-  /*getBoards() {
-    let res = JSON.parse(getBoard(this.props.params.id));
-    this.setState({board: res});
-  }*/
+  backToBoards() {
+    window.location.href = "#/list";
+  }
 
   render() {
 
@@ -39,9 +38,10 @@ class BoardView extends Component {
       newBoard: {
         display: "flex",
         flexDirection: "column",
-        //justifyContent: "center",
-        //alignItems: "center",
-        width: "100%"
+        alignItems: "flex-start"
+      },
+      buttonStyle: {
+        margin: "30px 0px 0px 30px"
       }
     };
 
@@ -53,6 +53,11 @@ class BoardView extends Component {
       <div style={styles.myListViewStyle}>
         <StatusBar />
         <div style={styles.newBoard}>
+          <FlatButton
+            style={styles.buttonStyle}
+            primary={true}
+            label="< Back to boards"
+            onClick={() => this.backToBoards()}/>
           <UnitBoardComponent board={this.state.board} />
         </div>
       </div>

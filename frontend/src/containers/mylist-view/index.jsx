@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import StatusBar from "../common/statusBar.jsx";
 
+import _ from 'lodash';
+
+import StatusBar from "../common/statusBar.jsx";
 import BoardComponent from '../../components/board/boardComponent.jsx';
 import DialogComponent from '../../components/board/dialogComponent.jsx';
 
@@ -12,8 +14,11 @@ class MyListView extends Component {
   constructor(props) {
     super(props);
 
+    this.updateLists = this.updateLists.bind(this);
+
     this.state = {
-      userLists: []
+      personalLists: [],
+      sharedLists: []
     };
   }
 
@@ -23,7 +28,20 @@ class MyListView extends Component {
 
   getUserBoards() {
     let res = JSON.parse(getBoardByOwnerId(this.props.userid));
-    this.setState({userLists: res});
+    let personal = [];
+    let shared = [];
+    _.forEach(res, list => {
+      if (list.authorizedUsers.length > 0)
+        shared.push(list);
+      else
+        personal.push(list);
+    });
+
+    this.setState({personalLists: personal, sharedLists: shared});
+  }
+
+  updateLists() {
+    this.getUserBoards();
   }
 
   render() {
@@ -41,6 +59,14 @@ class MyListView extends Component {
         //justifyContent: "center",
         //alignItems: "center",
         width: "100%"
+      },
+      displayListStyle: {
+        display: "flex",
+        flexFlow: "row wrap",
+        alignItems: "flex-start",
+        //justifyContent: "center",
+        width: "100%",
+        marginTop: "30px"
       }
     };
 
@@ -51,8 +77,11 @@ class MyListView extends Component {
       <div style={styles.myListViewStyle}>
         <StatusBar />
         <div style={styles.newBoard}>
-          <DialogComponent/>
-          <BoardComponent userLists={this.state.userLists} />
+          <DialogComponent updateLists={this.updateLists} />
+          <div style={styles.displayListStyle}>
+              <BoardComponent list={this.state.sharedLists} title="Shared boards" />
+              <BoardComponent list={this.state.personalLists} title="Personal boards" />
+          </div>
         </div>
       </div>
     );
