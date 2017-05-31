@@ -15,12 +15,14 @@ class BoardComponent extends Component {
 
     const styles = {
       divListStyle: {
-        width: "49%",
+        width: "45%",
         display: "flex",
         flexFlow: "column wrap",
         alignItems: "flex-start",
-        borderRight: this.props.longestList ? (this.props.title === "Shared boards" ? "1px solid #757575" : null) : null,
-        borderLeft: this.props.longestList ? null : (this.props.title === "Shared boards" ? null : "1px solid #757575")
+        border: "solid 1px #dddce1",
+        boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.13)",
+        backgroundColor: "#f9f9f9",
+        margin: "30px"
       },
       eachTypeListStyle: {
         display: "flex",

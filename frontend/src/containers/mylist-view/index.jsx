@@ -70,16 +70,14 @@ class MyListView extends Component {
     if (this.props.token === null)
      this.props.router.router.push('/');
 
-    const longestList = this.state.sharedLists.length > this.state.personalLists.length;
-
     return (
       <div style={styles.myListViewStyle}>
         <StatusBar />
         <div style={styles.newBoard}>
           <DialogComponent updateLists={this.updateLists} />
           <div style={styles.displayListStyle}>
-              <BoardComponent list={this.state.sharedLists} title="Shared boards" longestList={longestList} />
-              <BoardComponent list={this.state.personalLists} title="Personal boards" longestList={longestList} />
+              <BoardComponent list={this.state.sharedLists} title="Shared boards" />
+              <BoardComponent list={this.state.personalLists} title="Personal boards" />
           </div>
         </div>
       </div>

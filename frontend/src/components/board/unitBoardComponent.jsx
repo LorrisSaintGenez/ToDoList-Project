@@ -44,7 +44,7 @@ class UnitBoardComponent extends Component {
         margin: "10px"
       },
       listStyle: {
-        margin: "30px",
+        marginTop: "30px",
         border: "solid 1px #dddce1",
         boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.13)",
         backgroundColor: "#f9f9f9",
