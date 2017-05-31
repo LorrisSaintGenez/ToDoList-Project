@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 
 import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
+import StarIcon from 'material-ui/svg-icons/action/stars.js'
+import SvgIconFace from 'material-ui/svg-icons/action/face';
+import {blue200, indigo700} from 'material-ui/styles/colors';
 
 import _ from 'lodash';
 
@@ -44,15 +47,16 @@ class UnitBoardComponent extends Component {
         margin: "30px",
         border: "solid 1px #dddce1",
         boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.13)",
-        backgroundColor: "#ffffff",
+        backgroundColor: "#f9f9f9",
         color: "rgb(0, 188, 212)",
-        width: "40%",
+        width: "50%",
         height: "100%"
       },
       authorizedUsersStyle: {
         display: "flex",
-        flexDirection: "row",
-        overflowX: "auto"
+        flexFlow: "row wrap",
+        overflowX: "auto",
+        marginLeft: "5px"
       },
       chipStyle: {
         margin: "5px"
@@ -63,23 +67,47 @@ class UnitBoardComponent extends Component {
         textAlign: "center"
       },
       listTitle: {
-        margin: "5px",
-        textAlign: "center"
+        textAlign: "center",
+        margin: "0",
+        color: "#42A5F5"
+      },
+      titleBox: {
+        boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.13)",
+        backgroundColor: "#ffffff"
+      },
+      iconStyle: {
+        fill: "#ffeb3b",
+        marginTop: "14px",
+        marginLeft: "5px",
+        width: "30px",
+        height: "30px"
+      },
+      authorNameStyle: {
+        color: "#5f5f5f",
+        marginLeft: "5px"
+      },
+      authorBox: {
+        display: "flex",
+        flexFlow: "row"
       }
     };
 
     return (
       <div style={styles.listStyle}>
-        <h1 style={styles.listTitle}>{this.state.board.name}</h1>
+        <div style={styles.titleBox}>
+          <h1 style={styles.listTitle}>{this.state.board.name}</h1>
+        </div>
         {this.state.board.authorizedUsers.length > 0 ?
           (<div>
-            <h4>Author : {this.state.author}</h4>
-            <h3 style={styles.textStyle}>shared with : </h3>
+            <div style={styles.authorBox}>
+              <StarIcon style={styles.iconStyle}/>
+              <h3 style={styles.authorNameStyle}>{this.state.author}</h3>
+            </div>
             <div style={styles.authorizedUsersStyle}>
             {_.map(this.state.board.authorizedUsers, (user, i) => {
               return (
-                <Chip key={i} style={styles.chipStyle}>
-                  <Avatar size={32}>{(user[0].toUpperCase())}</Avatar>
+                <Chip key={i} style={styles.chipStyle} backgroundColor={blue200}>
+                  <Avatar color="#FFF" icon={<SvgIconFace />} backgroundColor={indigo700} />
                   {user}
                 </Chip>
               )

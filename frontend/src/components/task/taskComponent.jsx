@@ -5,6 +5,7 @@ import FlatButton from 'material-ui/FlatButton';
 
 import Bookmark from 'material-ui/svg-icons/action/bookmark.js';
 import BookmarkBorder from 'material-ui/svg-icons/action/bookmark-border.js';
+import PersonIcon from 'material-ui/svg-icons/social/person.js'
 
 import DialogEditBoardComponent from './dialogEditTaskComponent.jsx';
 
@@ -84,6 +85,12 @@ class TaskComponent extends Component {
       bookmarkStyle: {
         float: "right",
         cursor: "pointer"
+      },
+      authorStyle: {
+        marginTop: "3px"
+      },
+      cardStyle: {
+        margin: "10px"
       }
     };
 
@@ -91,8 +98,8 @@ class TaskComponent extends Component {
       this.props.router.router.push('/');
 
     return (
-      <Card>
-        <CardHeader title={this.state.author}>
+      <Card style={styles.cardStyle}>
+        <CardHeader title={this.state.author} titleStyle={styles.authorStyle} avatar={<PersonIcon/>}>
           {this.props.item.isDone ?
             <Bookmark style={styles.bookmarkStyle} onClick={() => this.handleDone()}/>
             : <BookmarkBorder style={styles.bookmarkStyle} onClick={() => this.handleDone()}/>
