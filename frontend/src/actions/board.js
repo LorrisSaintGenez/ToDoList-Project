@@ -20,4 +20,20 @@ export const getBoard = boardId => {
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send();
   return xhttp.responseText;
-}
+};
+
+export const deleteBoard = boardId => {
+  let xhttp = new XMLHttpRequest();
+  xhttp.open("DELETE", "http://localhost:3000/api/boards/" + boardId, false);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send();
+  return xhttp.status === 200 && xhttp.readyState === 4;
+};
+
+export const getBoardOwner = boardId => {
+  let xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "http://localhost:3000/api/boards/getBoardOwner?boardid=" + boardId, false);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send();
+  return xhttp.responseText;
+};

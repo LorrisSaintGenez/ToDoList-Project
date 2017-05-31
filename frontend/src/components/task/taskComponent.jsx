@@ -8,7 +8,7 @@ import BookmarkBorder from 'material-ui/svg-icons/action/bookmark-border.js';
 
 import DialogEditBoardComponent from './dialogEditTaskComponent.jsx';
 
-import { deleteBoardItem, updateBoardItem } from '../../actions/boarditem.js';
+import { deleteBoardItem, updateBoardItem, getTaskAuthor } from '../../actions/boarditem.js';
 
 class TaskComponent extends Component {
 
@@ -23,7 +23,8 @@ class TaskComponent extends Component {
       description: "",
       hasImage: false,
       imageUrl: null,
-      isDone: false
+      isDone: false,
+      author: ""
     }
   }
 
@@ -35,6 +36,8 @@ class TaskComponent extends Component {
       hasImage: this.props.item.imageUrl !== null,
       isDone: this.props.item.isDone
     });
+    console.log(this.props.item.id)
+    this.getTaskAuthor();
   }
 
   onDeleteTask() {
@@ -67,6 +70,14 @@ class TaskComponent extends Component {
     });
   }
 
+  getTaskAuthor() {
+    let res = getTaskAuthor(this.props.item.id);
+    console.log(res);
+    if (res !== null) {
+      this.setState({author: JSON.parse(res)[0].username});
+    }
+  }
+
   render() {
 
     const styles = {
@@ -81,7 +92,7 @@ class TaskComponent extends Component {
 
     return (
       <Card>
-        <CardHeader title="Author">
+        <CardHeader title={this.state.author}>
           {this.props.item.isDone ?
             <Bookmark style={styles.bookmarkStyle} onClick={() => this.handleDone()}/>
             : <BookmarkBorder style={styles.bookmarkStyle} onClick={() => this.handleDone()}/>

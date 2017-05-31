@@ -11,7 +11,7 @@
       "type": "string",
       "required": true
     },
-    "owner": {
+    "authorId": {
       "type": "number",
       "required": true
     },

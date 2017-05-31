@@ -33,7 +33,7 @@ class DialogCreateBoardComponent extends Component {
       name: this.state.name,
       authorizedUsers: this.state.authorizedUsers,
       isGlobal: this.state.isGlobal,
-      userid: this.props.userid
+      authorId: this.props.userid
     };
     let res = addBoard(boardInformation);
     if (res) {
@@ -52,7 +52,7 @@ class DialogCreateBoardComponent extends Component {
   onDialogClose() {
     this.setState({isGlobal: false});
     this.setState({authorizedUsers: []});
-    this.setState({isDialogOpen: false})
+    this.setState({isDialogOpen: false});
     this.setState({isChecked: false});
   }
 

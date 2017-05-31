@@ -29,3 +29,11 @@ export const updateBoardItem = (id, taskInformations) => {
   xhttp.send(JSON.stringify(taskInformations));
   return xhttp.status === 200 && xhttp.readyState === 4;
 };
+
+export const getTaskAuthor = taskid => {
+  let xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "http://localhost:3000/api/itemBoards/getTaskOwner?taskid=" + taskid, false);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send();
+  return xhttp.responseText;
+};

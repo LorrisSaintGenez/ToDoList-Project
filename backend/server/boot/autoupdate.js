@@ -7,10 +7,10 @@ module.exports = (app) => {
   app.datasources['todolist'].autoupdate(['itemBoard'], err => {
     if (err)
       throw err;
-  })
+  });
 
   app.datasources['todolist'].autoupdate(['todoUser'], err => {
     if (err)
       throw err;
-  })
+  });
 };

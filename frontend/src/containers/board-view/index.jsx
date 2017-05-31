@@ -2,12 +2,13 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
 import FlatButton from 'material-ui/FlatButton';
+import Dialog from 'material-ui/Dialog';
 
 import StatusBar from '../common/statusBar.jsx';
 import UnitBoardComponent from '../../components/board/unitBoardComponent.jsx';
 import DialogCreateTaskComponent from '../../components/task/dialogCreateTaskComponent.jsx';
 
-import { getBoard } from '../../actions/board.js';
+import { getBoard, deleteBoard } from '../../actions/board.js';
 import { getBoardItems } from '../../actions/boarditem.js';
 
 class BoardView extends Component {
@@ -21,7 +22,9 @@ class BoardView extends Component {
     this.state = {
       board: [],
       boardItems: [],
-      isDialogOpen: false
+      isDialogOpen: false,
+      isDeleteDialogOpen: false,
+      isDeleting: false
     };
   }
 
@@ -41,12 +44,26 @@ class BoardView extends Component {
       this.setState({boardItems: res});
   }
 
+  onBoardDelete() {
+    let res = deleteBoard(this.state.board.id);
+    if (res)
+      this.backToBoards();
+  }
+
   onDialogOpen() {
     this.setState({isDialogOpen: true});
   }
 
   onDialogClose() {
     this.setState({isDialogOpen: false});
+  }
+
+  onDeleteDialogOn() {
+    this.setState({isDeleteDialogOpen: true});
+  }
+
+  onDeleteDialogOff() {
+    this.setState({isDeleteDialogOpen: false});
   }
 
   render() {
@@ -76,6 +93,17 @@ class BoardView extends Component {
     if (this.props.token === null)
      this.props.router.router.push('/');
 
+    const actions = [
+      <FlatButton
+        label="Yes"
+        onTouchTap={() => this.onBoardDelete()}
+        secondary={true}/>,
+      <FlatButton
+        label="No"
+        onTouchTap={() => this.onDeleteDialogOff()}
+        primary={true}/>
+    ];
+
     return (
       <div style={styles.myListViewStyle}>
         <StatusBar />
@@ -91,11 +119,22 @@ class BoardView extends Component {
               primary={true}
               label="Add new task"
               onTouchTap={() => this.onDialogOpen()} />
+            <FlatButton
+              style={styles.buttonStyle}
+              secondary={true}
+              label="Delete this board"
+              onTouchTap={() => this.onDeleteDialogOn()} />
           </div>
           <UnitBoardComponent
             board={this.state.board}
             boardItems={this.state.boardItems}
             getBoardItems={this.getBoardItems} />
+          <Dialog
+            title="Are you sure you want to delete this board ?"
+            actions={actions}
+            modal={false}
+            open={this.state.isDeleteDialogOpen}
+            onRequestClose={() => this.onDeleteDialogOff()} />
           <DialogCreateTaskComponent
             isDialogOpen={this.state.isDialogOpen}
             onDialogClose={this.onDialogClose}

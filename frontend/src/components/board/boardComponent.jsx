@@ -34,16 +34,16 @@ class BoardComponent extends Component {
     };
 
     return (
-          <div style={styles.divListStyle}>
-            <h3 style={styles.titleStyle}>{this.props.title}</h3>
-            <div style={styles.eachTypeListStyle}>
-            {_.map(this.props.list, (listItem, index) => {
-              return (
-                <SingleBoardComponent list={listItem} key={index} />
-              );
-            })}
-            </div>
-          </div>
+      <div style={styles.divListStyle}>
+        <h3 style={styles.titleStyle}>{this.props.title}</h3>
+        <div style={styles.eachTypeListStyle}>
+        {_.map(this.props.list, (listItem, index) => {
+          return (
+            <SingleBoardComponent list={listItem} key={index} />
+          );
+        })}
+        </div>
+      </div>
     );
   }
 }

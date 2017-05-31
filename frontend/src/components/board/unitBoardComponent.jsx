@@ -6,12 +6,29 @@ import Avatar from 'material-ui/Avatar';
 
 import _ from 'lodash';
 
+import { getBoardOwner } from '../../actions/board.js';
+
 import TaskComponent from '../task/taskComponent.jsx';
 
 class UnitBoardComponent extends Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      author: "",
+      board: this.props.board
+    };
+  }
+
+  componentWillMount() {
+    this.getBoardAuthor();
+  }
+
+  getBoardAuthor() {
+    let res = getBoardOwner(this.state.board.id);
+    if (res)
+      this.setState({author: JSON.parse(res)[0].username});
   }
 
   render() {
@@ -51,16 +68,15 @@ class UnitBoardComponent extends Component {
       }
     };
 
-    const board = this.props.board;
-
     return (
       <div style={styles.listStyle}>
-        <h1 style={styles.listTitle}>{board.name}</h1>
-        {board.authorizedUsers.length > 0 ?
+        <h1 style={styles.listTitle}>{this.state.board.name}</h1>
+        {this.state.board.authorizedUsers.length > 0 ?
           (<div>
+            <h4>Author : {this.state.author}</h4>
             <h3 style={styles.textStyle}>shared with : </h3>
             <div style={styles.authorizedUsersStyle}>
-            {_.map(board.authorizedUsers, (user, i) => {
+            {_.map(this.state.board.authorizedUsers, (user, i) => {
               return (
                 <Chip key={i} style={styles.chipStyle}>
                   <Avatar size={32}>{(user[0].toUpperCase())}</Avatar>
@@ -75,7 +91,7 @@ class UnitBoardComponent extends Component {
           return (
             <TaskComponent
               getBoardItems={this.props.getBoardItems}
-              boardId={board.id}
+              boardId={this.state.board.id}
               item={item}
               key={index} />
           )
