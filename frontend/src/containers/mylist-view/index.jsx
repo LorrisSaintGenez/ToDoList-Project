@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import StatusBar from "../common/statusBar.jsx";
 import BoardComponent from '../../components/board/boardComponent.jsx';
-import DialogComponent from '../../components/board/dialogComponent.jsx';
+import DialogComponent from '../../components/board/dialogCreateBoardComponent.jsx';
 
 import { getBoardByOwnerId } from '../../actions/board.js';
 
@@ -56,15 +56,12 @@ class MyListView extends Component {
       newBoard: {
         display: "flex",
         flexDirection: "column",
-        //justifyContent: "center",
-        //alignItems: "center",
         width: "100%"
       },
       displayListStyle: {
         display: "flex",
         flexFlow: "row wrap",
         alignItems: "flex-start",
-        //justifyContent: "center",
         width: "100%",
         marginTop: "30px"
       }
@@ -73,14 +70,16 @@ class MyListView extends Component {
     if (this.props.token === null)
      this.props.router.router.push('/');
 
+    const longestList = this.state.sharedLists.length > this.state.personalLists.length;
+
     return (
       <div style={styles.myListViewStyle}>
         <StatusBar />
         <div style={styles.newBoard}>
           <DialogComponent updateLists={this.updateLists} />
           <div style={styles.displayListStyle}>
-              <BoardComponent list={this.state.sharedLists} title="Shared boards" />
-              <BoardComponent list={this.state.personalLists} title="Personal boards" />
+              <BoardComponent list={this.state.sharedLists} title="Shared boards" longestList={longestList} />
+              <BoardComponent list={this.state.personalLists} title="Personal boards" longestList={longestList} />
           </div>
         </div>
       </div>

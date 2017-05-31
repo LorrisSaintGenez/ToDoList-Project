@@ -1,35 +1,16 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
-import Avatar from 'material-ui/Avatar';
-import {List, ListItem} from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
-
-import Face from 'material-ui/svg-icons/action/face';
-
-import _ from 'lodash';
 
 class SingleBoardComponent extends Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      hover: false
-    }
   }
 
   goToBoardId(id) {
     window.location.href = "#/list/" + id;
-  }
-
-  hoverOn() {
-    this.setState({hover: true});
-  }
-
-  hoverOff() {
-    this.setState({hover: false});
   }
 
   render() {
@@ -73,25 +54,11 @@ class SingleBoardComponent extends Component {
     return (
       <div
         style={styles.eachListStyle}
-        onClick={() => this.goToBoardId(list.id)}
-        onMouseOver={() => this.hoverOn()}
-        onMouseOut={() => this.hoverOff()}>
+        onClick={() => this.goToBoardId(list.id)}>
         <h2>{list.name}</h2>
         <Divider/>
         {list.authorizedUsers.length > 0 ?
-          (<div>
-            <h3 style={styles.textColor}>Shared with :</h3>
-            <List style={styles.listStyle}>
-            {_.map(list.authorizedUsers, (user, i) => {
-              return (
-                <ListItem
-                  primaryText={user}
-                  key={i}
-                  leftIcon={<Face />}
-                />)
-            })}
-            </List>
-          </div>)
+            <h3 style={styles.textColor}>Shared with {list.authorizedUsers.length} {list.authorizedUsers.length > 1 ? "users" : "user"}</h3>
           : <h3 style={styles.textColor}>Personnal board</h3>}
       </div>
     );

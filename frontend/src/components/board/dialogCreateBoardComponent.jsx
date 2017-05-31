@@ -13,7 +13,7 @@ import ChipInput from 'material-ui-chip-input';
 
 import { addBoard } from '../../actions/board.js';
 
-class DialogComponent extends Component {
+class DialogCreateBoardComponent extends Component {
 
   constructor(props) {
     super(props);
@@ -80,8 +80,6 @@ class DialogComponent extends Component {
       addNewBoard: {
         display: "flex",
         flexDirection: "column",
-        //justifyContent: "left",
-        //alignItems: "center",
         marginLeft: "40px",
         color: "rgb(0, 188, 212)"
       },
@@ -147,4 +145,4 @@ const mapStateToProps = (store, router) => {
   }
 };
 
-export default connect(mapStateToProps)(DialogComponent);
+export default connect(mapStateToProps)(DialogCreateBoardComponent);

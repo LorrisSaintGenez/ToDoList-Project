@@ -6,6 +6,8 @@ import Avatar from 'material-ui/Avatar';
 
 import _ from 'lodash';
 
+import TaskComponent from '../task/taskComponent.jsx';
+
 class UnitBoardComponent extends Component {
 
   constructor(props) {
@@ -27,7 +29,7 @@ class UnitBoardComponent extends Component {
         boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.13)",
         backgroundColor: "#ffffff",
         color: "rgb(0, 188, 212)",
-        width: "95%",
+        width: "40%",
         height: "100%"
       },
       authorizedUsersStyle: {
@@ -40,10 +42,12 @@ class UnitBoardComponent extends Component {
       },
       textStyle: {
         color: "#5f5f5f",
-        margin: "5px"
+        margin: "5px",
+        textAlign: "center"
       },
       listTitle: {
-        margin: "5px"
+        margin: "5px",
+        textAlign: "center"
       }
     };
 
@@ -66,7 +70,16 @@ class UnitBoardComponent extends Component {
             })}
             </div>
           </div>)
-          : <h3 style={styles.textStyle}>personnal board</h3>}
+          : <h3 style={styles.textStyle}>Personal board</h3>}
+        {_.map(this.props.boardItems, (item, index) => {
+          return (
+            <TaskComponent
+              getBoardItems={this.props.getBoardItems}
+              boardId={board.id}
+              item={item}
+              key={index} />
+          )
+        })}
       </div>
     );
   }

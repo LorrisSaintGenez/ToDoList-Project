@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
-import Chip from 'material-ui/Chip';
-import Avatar from 'material-ui/Avatar';
-
 import _ from 'lodash';
 
 import SingleBoardComponent from './singleBoardComponent.jsx';
@@ -22,7 +19,8 @@ class BoardComponent extends Component {
         display: "flex",
         flexFlow: "column wrap",
         alignItems: "flex-start",
-        borderRight: this.props.title === "Shared boards" ? "1px solid #757575" : null
+        borderRight: this.props.longestList ? (this.props.title === "Shared boards" ? "1px solid #757575" : null) : null,
+        borderLeft: this.props.longestList ? null : (this.props.title === "Shared boards" ? null : "1px solid #757575")
       },
       eachTypeListStyle: {
         display: "flex",

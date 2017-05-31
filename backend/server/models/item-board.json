@@ -23,15 +23,13 @@
       "required": true,
       "default": false
     },
-    "authorName": {
-      "type": "string",
-      "required": true,
-      "default": ""
+    "authorId": {
+      "type": "number",
+      "required": true
     },
-    "contentType": {
+    "imageUrl": {
       "type": "string",
-      "required": true,
-      "default": "text"
+      "required": false
     }
   },
   "validations": [],
