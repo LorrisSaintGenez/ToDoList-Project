@@ -9,7 +9,7 @@ import UnitBoardComponent from '../../components/board/unitBoardComponent.jsx';
 import DialogCreateTaskComponent from '../../components/task/dialogCreateTaskComponent.jsx';
 
 import { getBoard, deleteBoard } from '../../actions/board.js';
-import { getBoardItems } from '../../actions/boarditem.js';
+import { getBoardItems, deleteBoardItem } from '../../actions/boarditem.js';
 
 class BoardView extends Component {
 
@@ -46,6 +46,10 @@ class BoardView extends Component {
 
   onBoardDelete() {
     let res = deleteBoard(this.state.board.id);
+	let items = JSON.parse(getBoardItems(this.state.board.id));
+	for (let i = 0; i < items.length; i++) {
+		deleteBoardItem(items[i].id);
+	}	
     if (res)
       this.backToBoards();
   }
