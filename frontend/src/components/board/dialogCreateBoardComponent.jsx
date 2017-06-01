@@ -11,6 +11,7 @@ import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import ChipInput from 'material-ui-chip-input';
 
+import { getUserByUsername } from '../../actions/authentication.js';
 import { addBoard } from '../../actions/board.js';
 
 class DialogCreateBoardComponent extends Component {
@@ -24,7 +25,8 @@ class DialogCreateBoardComponent extends Component {
 
       name: "",
       isGlobal: false,
-      authorizedUsers: []
+      authorizedUsers: [],
+      unknownUser: null
     };
   }
 
@@ -50,10 +52,13 @@ class DialogCreateBoardComponent extends Component {
   }
 
   onDialogClose() {
-    this.setState({isGlobal: false});
-    this.setState({authorizedUsers: []});
-    this.setState({isDialogOpen: false});
-    this.setState({isChecked: false});
+    this.setState({
+      isGlobal: false,
+      authorizedUsers: [],
+      isDialogOpen: false,
+      isChecked: false,
+      unknownUser: null
+    });
   }
 
   handleName(name) {
@@ -65,7 +70,15 @@ class DialogCreateBoardComponent extends Component {
   }
 
   handleAddChip(chip) {
-    this.setState({authorizedUsers: _.concat(this.state.authorizedUsers, chip)});
+    let res = getUserByUsername(chip);
+    if (res) {
+      this.setState({
+        authorizedUsers: _.concat(this.state.authorizedUsers, chip),
+        unknownUser: null
+      });
+    }
+    else
+      this.setState({unknownUser: chip});
   }
 
   handleDeleteChip(chip) {
@@ -104,6 +117,9 @@ class DialogCreateBoardComponent extends Component {
       />
     ];
 
+    console.log(this.state.unknownUsers);
+    console.log(this.state.authorizedUsers);
+
     return (
       <div style={styles.addNewBoard}>
         <h1>Boards</h1>
@@ -125,12 +141,19 @@ class DialogCreateBoardComponent extends Component {
             label="Share it"
             onCheck={() => this.handleGlobal()} />
           {this.state.isGlobal ? (
-            <ChipInput
-              value={this.state.authorizedUsers}
-              hintText="List all authorized users"
-              style={styles.chipInputStyle}
-              onRequestAdd={(e) => this.handleAddChip(e)}
-              onRequestDelete={(e) => this.handleDeleteChip(e)} />
+            <div>
+              <ChipInput
+                value={this.state.authorizedUsers}
+                hintText="List all authorized users"
+                style={styles.chipInputStyle}
+                onRequestAdd={(e) => this.handleAddChip(e)}
+                onRequestDelete={(e) => this.handleDeleteChip(e)} />
+              {this.state.unknownUser !== null ? (
+                <div>
+                  User not found : {this.state.unknownUser}
+                </div>
+              ) : null}
+            </div>
           ) : null}
         </Dialog>
       </div>

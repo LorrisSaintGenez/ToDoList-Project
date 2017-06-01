@@ -32,6 +32,15 @@ module.exports = function(Board) {
     )
   };
 
+  Board.getBoardSharedWithUser = function (userid, req, res) {
+    server.models.board.find({where: {authorId: userid}}, function (err, ret) {
+        if (err)
+          throw err;
+        res.status(200).send(ret);
+      }
+    )
+  };
+
   Board.getBoardOwner = function (boardid, req, res) {
     server.models.board.find({where: {id: boardid}}, function (err, ret) {
         if (err)

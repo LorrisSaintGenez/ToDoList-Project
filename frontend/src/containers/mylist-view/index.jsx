@@ -7,7 +7,7 @@ import StatusBar from "../common/statusBar.jsx";
 import BoardComponent from '../../components/board/boardComponent.jsx';
 import DialogComponent from '../../components/board/dialogCreateBoardComponent.jsx';
 
-import { getBoardByOwnerId } from '../../actions/board.js';
+import { getBoardByOwnerId, getBoardSharedWithUser } from '../../actions/board.js';
 
 class MyListView extends Component {
 
@@ -37,7 +37,12 @@ class MyListView extends Component {
         personal.push(list);
     });
 
-    this.setState({personalLists: personal, sharedLists: shared});
+    res = JSON.parse(getBoardSharedWithUser(this.props.userid));
+
+    this.setState({
+      personalLists: personal,
+      sharedLists: _.concat(shared, res)
+    });
   }
 
   updateLists() {
