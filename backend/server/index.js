@@ -1,6 +1,7 @@
 const loopback = require('loopback');
 const boot = require('loopback-boot');
-const path = require('path')
+const path = require('path');
+
 const app = module.exports = loopback();
 
 app.start = function() {

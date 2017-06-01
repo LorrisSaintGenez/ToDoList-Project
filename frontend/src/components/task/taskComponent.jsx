@@ -37,7 +37,6 @@ class TaskComponent extends Component {
       hasImage: this.props.item.imageUrl !== null,
       isDone: this.props.item.isDone
     });
-    console.log(this.props.item.id)
     this.getTaskAuthor();
   }
 

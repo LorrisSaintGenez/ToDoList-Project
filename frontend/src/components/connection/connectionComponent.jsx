@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
+import Dialog from 'material-ui/Dialog';
+
+import _ from 'lodash';
 
 import {addConnection, loginConnection} from '../../actions/authentication.js';
 
@@ -15,7 +18,9 @@ export default class ConnectionComponent extends Component {
       password: "",
       error: false,
       errorPseudo: false,
-      success: false
+      success: false,
+      isDialogOpen: false,
+      resetedPassword: null
     };
   }
 
@@ -76,13 +81,42 @@ export default class ConnectionComponent extends Component {
     this.setState({password: password});
   }
 
+  onPasswordDialogOn() {
+    this.setState({isDialogOpen: true});
+  }
+
+  onPasswordDialogOff() {
+    this.setState({isDialogOpen: false});
+  }
+
+  generateRandomString() {
+    const keys = _.shuffle(Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"));
+
+    let password = "";
+    while (password.length < 8) {
+      _.forEach(keys, (key, index) => {
+        let ran = Math.floor(Math.random() * 5) + 1;
+        if ((index + 2) % ran === 0)
+          password += key;
+        if (password.length === 8)
+          return false;
+      });
+    }
+
+    this.setState({resetedPassword: password});
+  }
+
+  onPasswordReset() {
+    this.generateRandomString();
+  }
+
   render() {
 
     const styles = {
       connectionStyle: {
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
+        justifyContent: "space-around",
         alignItems: "center",
         width: "100%",
         padding: "10px",
@@ -90,7 +124,8 @@ export default class ConnectionComponent extends Component {
         borderRadius: "5px",
         backgroundColor: "#ffffff",
         border: "solid 1px #dddce1",
-        boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.13)"
+        boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.13)",
+        height: "250px"
       },
       spanStyle: {
         fontSize: "18px",
@@ -98,6 +133,16 @@ export default class ConnectionComponent extends Component {
         marginBottom: "20px"
       }
     };
+
+    const actions = [
+      <FlatButton
+        label="Back"
+        onTouchTap={() => this.onPasswordDialogOff()} />,
+      <FlatButton
+        label="Reset"
+        onTouchTap={() => this.onPasswordReset()}
+        secondary={true} />
+    ];
 
     let REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -125,6 +170,27 @@ export default class ConnectionComponent extends Component {
           primary={true}
           disabled={this.state.email === '' || this.state.password === '' || (this.state.pseudo === '' && this.props.isSignup) || !this.state.email.match(REGEXP) }
           onClick={this.props.isSignup ? () => this.signupConnection() : () => this.signinConnection()} />
+        {this.props.isSignup ? null :
+          (<div>
+            <FlatButton
+              label="Forgot password"
+              disabled={this.state.email === '' || !this.state.email.match(REGEXP)}
+              secondary={true}
+              onClick={() => this.onPasswordDialogOn()} />
+            <Dialog
+              title="Reset password"
+              actions={actions}
+              open={this.state.isDialogOpen}
+              onRequestClose={() => this.onPasswordDialogOff()}>
+              {this.state.resetedPassword ?
+                  "Your new password is : " + this.state.resetedPassword
+                : (
+                  "Are you sure you want to reset your password ?" +
+                  "The new password will be send to your email address."
+                )}
+            </Dialog>
+          </div>)
+        }
       </div>
     );
   }
