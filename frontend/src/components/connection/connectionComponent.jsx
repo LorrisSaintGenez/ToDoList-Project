@@ -5,7 +5,7 @@ import Dialog from 'material-ui/Dialog';
 
 import _ from 'lodash';
 
-import {addConnection, loginConnection} from '../../actions/authentication.js';
+import {addConnection, loginConnection, updateUser} from '../../actions/authentication.js';
 
 export default class ConnectionComponent extends Component {
 
@@ -18,6 +18,7 @@ export default class ConnectionComponent extends Component {
       password: "",
       error: false,
       errorPseudo: false,
+      errorResetPassword: false,
       success: false,
       isDialogOpen: false,
       resetedPassword: null
@@ -86,7 +87,11 @@ export default class ConnectionComponent extends Component {
   }
 
   onPasswordDialogOff() {
-    this.setState({isDialogOpen: false});
+    this.setState({
+      isDialogOpen: false,
+      errorResetPassword: false,
+      resetedPassword: false
+    });
   }
 
   generateRandomString() {
@@ -99,15 +104,20 @@ export default class ConnectionComponent extends Component {
         if ((index + 2) % ran === 0)
           password += key;
         if (password.length === 8)
-          return false;
+          return password;
       });
     }
-
-    this.setState({resetedPassword: password});
+    return password;
   }
 
   onPasswordReset() {
-    this.generateRandomString();
+    let password = this.generateRandomString();
+    this.setState({resetedPassword: password});
+    let res = updateUser({password: password, email: this.state.email});
+    if (!res) {
+      this.setState({errorResetPassword: true});
+    }
+    // TODO : Need to check if OK --> Error otherwise
   }
 
   render() {
@@ -182,9 +192,11 @@ export default class ConnectionComponent extends Component {
               actions={actions}
               open={this.state.isDialogOpen}
               onRequestClose={() => this.onPasswordDialogOff()}>
-              {this.state.resetedPassword ?
-                  "Your new password is : " + this.state.resetedPassword
-                : (
+              {this.state.resetedPassword ? (
+                this.state.errorResetPassword ?
+                  "Invalid email, account doesn't exist."
+                  : "Your new password is : " + this.state.resetedPassword
+              ) : (
                   "Are you sure you want to reset your password ?" +
                   "The new password will be send to your email address."
                 )}
