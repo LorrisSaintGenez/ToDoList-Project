@@ -38,6 +38,14 @@ export const deleteBoard = boardId => {
   return xhttp.status === 200 && xhttp.readyState === 4;
 };
 
+export const editBoard = (boardInformation, boardId) => {
+  let xhttp = new XMLHttpRequest();
+  xhttp.open("PATCH", "http://localhost:3000/api/boards/" + boardId, false);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send(JSON.stringify(boardInformation));
+  return xhttp.status === 200 && xhttp.readyState === 4;
+};
+
 export const getBoardOwner = boardId => {
   let xhttp = new XMLHttpRequest();
   xhttp.open("GET", "http://localhost:3000/api/boards/getBoardOwner?boardid=" + boardId, false);

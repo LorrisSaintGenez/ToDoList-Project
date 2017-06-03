@@ -39,8 +39,12 @@ module.exports = function(Board) {
           throw err;
         let authorizedArray = [];
         _.forEach(ret, (value) => {
-          if (value.authorizedUsers.length > 0)
-            authorizedArray.push(value);
+          _.forEach(value.authorizedUsers, (user) => {
+            if (user.username === username) {
+              authorizedArray.push(value);
+              return false;
+            }
+          })
         });
         res.status(200).send(authorizedArray);
       }

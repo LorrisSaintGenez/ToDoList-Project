@@ -7,6 +7,7 @@ import Dialog from 'material-ui/Dialog';
 import StatusBar from '../common/statusBar.jsx';
 import UnitBoardComponent from '../../components/board/unitBoardComponent.jsx';
 import DialogCreateTaskComponent from '../../components/task/dialogCreateTaskComponent.jsx';
+import DialogEditBoardComponent from '../../components/board/dialogEditBoardComponent.jsx';
 
 import { getBoard, deleteBoard } from '../../actions/board.js';
 import { getBoardItems, deleteBoardItem } from '../../actions/boarditem.js';
@@ -18,20 +19,21 @@ class BoardView extends Component {
 
     this.getBoardItems = this.getBoardItems.bind(this);
     this.onDialogClose = this.onDialogClose.bind(this);
+    this.onEditDialogOff = this.onEditDialogOff.bind(this);
+    this.getBoard = this.getBoard.bind(this);
 
     this.state = {
       board: [],
       boardItems: [],
       isDialogOpen: false,
       isDeleteDialogOpen: false,
-      isDeleting: false
+      isDeleting: false,
+      isEditDialogOn: false
     };
   }
 
   componentWillMount() {
-    let res = JSON.parse(getBoard(this.props.params.id));
-    this.setState({board: res});
-    this.getBoardItems(res.id);
+    this.getBoard();
   }
 
   backToBoards() {
@@ -46,10 +48,10 @@ class BoardView extends Component {
 
   onBoardDelete() {
     let res = deleteBoard(this.state.board.id);
-	let items = JSON.parse(getBoardItems(this.state.board.id));
-	for (let i = 0; i < items.length; i++) {
-		deleteBoardItem(items[i].id);
-	}	
+    let items = JSON.parse(getBoardItems(this.state.board.id));
+    for (let i = 0; i < items.length; i++) {
+      deleteBoardItem(items[i].id);
+    }
     if (res)
       this.backToBoards();
   }
@@ -68,6 +70,20 @@ class BoardView extends Component {
 
   onDeleteDialogOff() {
     this.setState({isDeleteDialogOpen: false});
+  }
+
+  onEditDialogOn() {
+    this.setState({isEditDialogOn: true});
+  }
+
+  onEditDialogOff() {
+    this.setState({isEditDialogOn: false});
+  }
+
+  getBoard() {
+    let res = JSON.parse(getBoard(this.props.params.id));
+    this.setState({board: res});
+    this.getBoardItems(res.id);
   }
 
   render() {
@@ -99,13 +115,12 @@ class BoardView extends Component {
 
     const actions = [
       <FlatButton
+        label="No"
+        onTouchTap={() => this.onDeleteDialogOff()}/>,
+      <FlatButton
         label="Yes"
         onTouchTap={() => this.onBoardDelete()}
-        secondary={true}/>,
-      <FlatButton
-        label="No"
-        onTouchTap={() => this.onDeleteDialogOff()}
-        primary={true}/>
+        secondary={true}/>
     ];
 
     return (
@@ -115,7 +130,6 @@ class BoardView extends Component {
           <div style={styles.buttonList}>
             <FlatButton
               style={styles.buttonStyle}
-              primary={true}
               label="< Back to boards"
               onClick={() => this.backToBoards()} />
             <FlatButton
@@ -123,6 +137,11 @@ class BoardView extends Component {
               primary={true}
               label="Add new task"
               onTouchTap={() => this.onDialogOpen()} />
+            <FlatButton
+              style={styles.buttonStyle}
+              primary={true}
+              label="Edit this board"
+              onTouchTap={() => this.onEditDialogOn()} />
             <FlatButton
               style={styles.buttonStyle}
               secondary={true}
@@ -144,8 +163,13 @@ class BoardView extends Component {
             onDialogClose={this.onDialogClose}
             getBoardItems={this.getBoardItems}
             board={this.state.board}
+            user={this.props.userid} />
+          <DialogEditBoardComponent
+            board={this.state.board}
             user={this.props.userid}
-          />
+            isEditDialogOn={this.state.isEditDialogOn}
+            onEditDialogOff={this.onEditDialogOff}
+            getBoard={this.getBoard} />
         </div>
       </div>
     );
