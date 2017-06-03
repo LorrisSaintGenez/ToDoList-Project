@@ -12,7 +12,7 @@ import Checkbox from 'material-ui/Checkbox';
 import Chip from 'material-ui/Chip';
 import ChipInput from 'material-ui-chip-input';
 
-import { getUserByUsername } from '../../actions/authentication.js';
+import { getUserById, getUserByUsername } from '../../actions/authentication.js';
 import { addBoard } from '../../actions/board.js';
 
 class DialogCreateBoardComponent extends Component {
@@ -27,7 +27,8 @@ class DialogCreateBoardComponent extends Component {
       name: "",
       isGlobal: false,
       authorizedUsers: [],
-      unknownUser: null
+      unknownUser: null,
+      invalidUser: null
     };
   }
 
@@ -58,7 +59,8 @@ class DialogCreateBoardComponent extends Component {
       authorizedUsers: [],
       isDialogOpen: false,
       isChecked: false,
-      unknownUser: null
+      unknownUser: null,
+      invalidUser: null
     });
   }
 
@@ -71,26 +73,31 @@ class DialogCreateBoardComponent extends Component {
   }
 
   handleAddChip(chip) {
-    let res = getUserByUsername(chip);
-    if (res) {
-      let tmp_arr = [];
-      let user = {
-        username: chip
-      };
-      tmp_arr.push(user);
-      console.log(tmp_arr);
-      this.setState({
-        authorizedUsers: _.concat(this.state.authorizedUsers, tmp_arr),
-        unknownUser: null
-      });
+    if (JSON.parse(getUserById(this.props.userid, this.props.token)).username !== chip) {
+      let res = getUserByUsername(chip);
+
+      if (res) {
+        let tmp_arr = [];
+        let user = {
+          username: chip
+        };
+        tmp_arr.push(user);
+        this.setState({
+          authorizedUsers: _.concat(this.state.authorizedUsers, tmp_arr),
+          unknownUser: null,
+          invalidUser: null
+        });
+      }
+      else
+        this.setState({unknownUser: chip});
+    } else {
+      this.setState({invalidUser: chip});
     }
-    else
-      this.setState({unknownUser: chip});
   }
 
   handleDeleteChip(chip) {
     this.setState({authorizedUsers: _.remove(this.state.authorizedUsers, (n) => {
-      return n !== chip;
+      return n.username !== chip;
     })});
   }
 
@@ -123,8 +130,6 @@ class DialogCreateBoardComponent extends Component {
         onTouchTap={() => this.onBoardCreate()}
       />
     ];
-
-    console.log(this.state.authorizedUsers);
 
     return (
       <div style={styles.addNewBoard}>
@@ -163,6 +168,11 @@ class DialogCreateBoardComponent extends Component {
               {this.state.unknownUser !== null ? (
                 <div>
                   User not found : {this.state.unknownUser}
+                </div>
+              ) : null}
+              {this.state.invalidUser !== null ? (
+                <div>
+                  You can't add yourself : {this.state.invalidUser}
                 </div>
               ) : null}
             </div>

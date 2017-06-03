@@ -8,6 +8,7 @@ import BoardComponent from '../../components/board/boardComponent.jsx';
 import DialogCreateBoardComponent from '../../components/board/dialogCreateBoardComponent.jsx';
 
 import { getBoardByOwnerId, getBoardSharedWithUser } from '../../actions/board.js';
+import { getUserById } from '../../actions/authentication.js';
 
 class MyListView extends Component {
 
@@ -37,11 +38,12 @@ class MyListView extends Component {
         personal.push(list);
     });
 
-    //res = JSON.parse(getBoardSharedWithUser(this.props.userid));
+    let userInfos = JSON.parse(getUserById(this.props.userid, this.props.token));
+    res = JSON.parse(getBoardSharedWithUser(userInfos.username));
 
     this.setState({
       personalLists: personal,
-      sharedLists: shared //_.merge(shared, res)
+      sharedLists: _.merge(shared, res)
     });
   }
 

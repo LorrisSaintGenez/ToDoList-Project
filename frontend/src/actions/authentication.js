@@ -21,3 +21,11 @@ export const getUserByUsername = username => {
   xhttp.send();
   return xhttp.status === 200 && xhttp.readyState === 4
 };
+
+export const getUserById = (id, access_token) => {
+  let xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "http://localhost:3000/api/todoUsers/" + id + "?access_token=" + access_token, false);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send();
+  return xhttp.status === 200 && xhttp.readyState === 4 ? xhttp.responseText : null;
+};

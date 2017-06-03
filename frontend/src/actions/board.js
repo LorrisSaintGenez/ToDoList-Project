@@ -14,9 +14,9 @@ export const getBoardByOwnerId = userid => {
   return xhttp.responseText;
 };
 
-export const getBoardSharedWithUser = userid => {
+export const getBoardSharedWithUser = username => {
   let xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "http://localhost:3000/api/boards/getBoardSharedWithUser?userid=" + userid, false);
+  xhttp.open("GET", "http://localhost:3000/api/boards/getBoardSharedWithUser?username=" + username, false);
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send();
   return xhttp.responseText;

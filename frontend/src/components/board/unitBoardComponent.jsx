@@ -108,7 +108,7 @@ class UnitBoardComponent extends Component {
               return (
                 <Chip key={i} style={styles.chipStyle} backgroundColor={blue200}>
                   <Avatar color="#FFF" icon={<SvgIconFace />} backgroundColor={indigo700} />
-                  {user}
+                  {user.username}
                 </Chip>
               )
             })}

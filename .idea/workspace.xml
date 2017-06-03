@@ -5,8 +5,10 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/package.json" afterPath="$PROJECT_DIR$/backend/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/server/models/board.js" afterPath="$PROJECT_DIR$/backend/server/models/board.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/backend/server/models/board.json" afterPath="$PROJECT_DIR$/backend/server/models/board.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/src/actions/authentication.js" afterPath="$PROJECT_DIR$/frontend/src/actions/authentication.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/src/actions/board.js" afterPath="$PROJECT_DIR$/frontend/src/actions/board.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/src/components/board/dialogCreateBoardComponent.jsx" afterPath="$PROJECT_DIR$/frontend/src/components/board/dialogCreateBoardComponent.jsx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/src/components/board/unitBoardComponent.jsx" afterPath="$PROJECT_DIR$/frontend/src/components/board/unitBoardComponent.jsx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/frontend/src/containers/mylist-view/index.jsx" afterPath="$PROJECT_DIR$/frontend/src/containers/mylist-view/index.jsx" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,72 +20,48 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.jsx" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/src/containers/mylist-view/index.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="36" column="28" lean-forward="true" selection-start-line="36" selection-start-column="28" selection-end-line="36" selection-end-column="28" />
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="boardComponent.jsx" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/src/components/board/boardComponent.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="629">
-              <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="board.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/backend/server/models/board.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="595">
-              <caret line="35" column="4" lean-forward="false" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="4" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="board.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/backend/server/models/board.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" column="6" lean-forward="false" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="singleBoardComponent.jsx" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/frontend/src/components/board/singleBoardComponent.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="952">
-              <caret line="59" column="13" lean-forward="false" selection-start-line="59" selection-start-column="9" selection-end-line="59" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dialogCreateBoardComponent.jsx" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/frontend/src/components/board/dialogCreateBoardComponent.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="121" column="136" lean-forward="false" selection-start-line="121" selection-start-column="136" selection-end-line="121" selection-end-column="136" />
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="index.jsx" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/frontend/src/containers/mylist-view/index.jsx">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="170">
+                  <caret line="10" column="20" lean-forward="false" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="20" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="dialogCreateBoardComponent.jsx" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/frontend/src/components/board/dialogCreateBoardComponent.jsx">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="482">
+                  <caret line="83" column="27" lean-forward="true" selection-start-line="83" selection-start-column="27" selection-end-line="83" selection-end-column="27" />
+                  <folding>
+                    <element signature="e#0#39#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="board.js" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/backend/server/models/board.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="595">
+                  <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -167,18 +145,18 @@
         <option value="$PROJECT_DIR$/frontend/src/components/task/dialogCreateTaskComponent.jsx" />
         <option value="$PROJECT_DIR$/frontend/src/containers/board-view/index.jsx" />
         <option value="$PROJECT_DIR$/backend/server/boot/autoupdate.js" />
-        <option value="$PROJECT_DIR$/frontend/src/components/board/unitBoardComponent.jsx" />
         <option value="$PROJECT_DIR$/frontend/src/actions/boarditem.js" />
         <option value="$PROJECT_DIR$/frontend/src/components/task/taskComponent.jsx" />
         <option value="$PROJECT_DIR$/backend/server/models/item-board.js" />
         <option value="$PROJECT_DIR$/backend/server/models/todo-user.json" />
-        <option value="$PROJECT_DIR$/frontend/src/actions/authentication.js" />
         <option value="$PROJECT_DIR$/backend/server/models/todo-user.js" />
-        <option value="$PROJECT_DIR$/frontend/src/actions/board.js" />
         <option value="$PROJECT_DIR$/frontend/src/components/board/boardComponent.jsx" />
         <option value="$PROJECT_DIR$/backend/server/models/board.json" />
-        <option value="$PROJECT_DIR$/backend/server/models/board.js" />
+        <option value="$PROJECT_DIR$/frontend/src/actions/board.js" />
+        <option value="$PROJECT_DIR$/frontend/src/actions/authentication.js" />
+        <option value="$PROJECT_DIR$/frontend/src/components/board/unitBoardComponent.jsx" />
         <option value="$PROJECT_DIR$/frontend/src/containers/mylist-view/index.jsx" />
+        <option value="$PROJECT_DIR$/backend/server/models/board.js" />
         <option value="$PROJECT_DIR$/frontend/src/components/board/dialogCreateBoardComponent.jsx" />
       </list>
     </option>
@@ -1102,12 +1080,12 @@
       <workItem from="1495457247339" duration="31510000" />
       <workItem from="1496050801939" duration="14131000" />
       <workItem from="1496127636307" duration="32562000" />
-      <workItem from="1496489105994" duration="3333000" />
+      <workItem from="1496489105994" duration="8369000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="138741000" />
+    <option name="totallyTimeSpent" value="143777000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1192,13 +1170,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/README.md" />
     <entry file="file://$PROJECT_DIR$/frontend/src/routes/routes.js" />
-    <entry file="file://$PROJECT_DIR$/backend/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="30" column="1" lean-forward="false" selection-start-line="30" selection-start-column="1" selection-end-line="30" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/actions/authentification.js" />
     <entry file="file://$PROJECT_DIR$/backend/server/boot/root.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -1358,13 +1329,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/components/board/unitBoardComponent.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="91" column="26" lean-forward="true" selection-start-line="91" selection-start-column="26" selection-end-line="91" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/actions/boarditem.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="578">
@@ -1427,22 +1391,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/actions/board.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="25" lean-forward="true" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/actions/authentication.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="30" lean-forward="false" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/server/models/item-board.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
@@ -1467,28 +1415,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/backend/server/models/board.js">
+    <entry file="file://$PROJECT_DIR$/frontend/src/components/board/boardComponent.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="35" column="4" lean-forward="false" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="4" />
+        <state relative-caret-position="0">
+          <caret line="5" column="62" lean-forward="true" selection-start-line="5" selection-start-column="62" selection-end-line="5" selection-end-column="62" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/containers/mylist-view/index.jsx">
+    <entry file="file://$PROJECT_DIR$/frontend/src/actions/authentication.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="36" column="28" lean-forward="true" selection-start-line="36" selection-start-column="28" selection-end-line="36" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="493">
+          <caret line="29" column="84" lean-forward="false" selection-start-line="29" selection-start-column="84" selection-end-line="29" selection-end-column="84" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/components/board/boardComponent.jsx">
+    <entry file="file://$PROJECT_DIR$/backend/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+        <state relative-caret-position="510">
+          <caret line="30" column="1" lean-forward="false" selection-start-line="30" selection-start-column="1" selection-end-line="30" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/actions/board.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="663">
+          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1501,10 +1455,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/components/board/dialogCreateBoardComponent.jsx">
+    <entry file="file://$PROJECT_DIR$/backend/server/models/board.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/components/board/unitBoardComponent.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="110" column="32" lean-forward="false" selection-start-line="110" selection-start-column="32" selection-end-line="110" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/containers/mylist-view/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
-          <caret line="121" column="136" lean-forward="false" selection-start-line="121" selection-start-column="136" selection-end-line="121" selection-end-column="136" />
+          <caret line="10" column="20" lean-forward="false" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/components/board/dialogCreateBoardComponent.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="482">
+          <caret line="83" column="27" lean-forward="true" selection-start-line="83" selection-start-column="27" selection-end-line="83" selection-end-column="27" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>

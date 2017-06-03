@@ -1,6 +1,7 @@
 'use strict';
 
 const server = require('../index.js');
+const _ = require('lodash');
 
 module.exports = function(Board) {
 
@@ -32,16 +33,19 @@ module.exports = function(Board) {
     )
   };
 
-  // TODO : Filter in array
-  /*Board.getBoardSharedWithUser = function (userid, req, res) {
-    let filter = {where: }
-    server.models.board.find({where: {}, function (err, ret) {
+  Board.getBoardSharedWithUser = function (username, req, res) {
+    server.models.board.find({}, function (err, ret) {
         if (err)
           throw err;
-        res.status(200).send(ret);
+        let authorizedArray = [];
+        _.forEach(ret, (value) => {
+          if (value.authorizedUsers.length > 0)
+            authorizedArray.push(value);
+        });
+        res.status(200).send(authorizedArray);
       }
     )
-  };*/
+  };
 
   Board.getBoardOwner = function (boardid, req, res) {
     server.models.board.find({where: {id: boardid}}, function (err, ret) {
@@ -70,7 +74,7 @@ module.exports = function(Board) {
   });
 
   Board.remoteMethod('getBoardSharedWithUser', {
-    accepts: [{ arg: 'userid', type: 'number', http: { source: 'query' }},
+    accepts: [{ arg: 'username', type: 'string', http: { source: 'query' }},
       { arg: 'req', type: 'object', http: { source: 'req' }},
       { arg: 'res', type: 'object', http: { source: 'res' }}],
     http: {verb: 'get'}
