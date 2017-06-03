@@ -21,7 +21,7 @@
     },
     "authorizedUsers": {
       "type": [
-        "array"
+        "object"
       ]
     }
   },

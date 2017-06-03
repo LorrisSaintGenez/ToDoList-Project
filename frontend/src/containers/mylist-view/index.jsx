@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import StatusBar from "../common/statusBar.jsx";
 import BoardComponent from '../../components/board/boardComponent.jsx';
-import DialogComponent from '../../components/board/dialogCreateBoardComponent.jsx';
+import DialogCreateBoardComponent from '../../components/board/dialogCreateBoardComponent.jsx';
 
 import { getBoardByOwnerId, getBoardSharedWithUser } from '../../actions/board.js';
 
@@ -37,11 +37,11 @@ class MyListView extends Component {
         personal.push(list);
     });
 
-    res = JSON.parse(getBoardSharedWithUser(this.props.userid));
+    //res = JSON.parse(getBoardSharedWithUser(this.props.userid));
 
     this.setState({
       personalLists: personal,
-      sharedLists: _.concat(shared, res)
+      sharedLists: shared //_.merge(shared, res)
     });
   }
 
@@ -79,7 +79,7 @@ class MyListView extends Component {
       <div style={styles.myListViewStyle}>
         <StatusBar />
         <div style={styles.newBoard}>
-          <DialogComponent updateLists={this.updateLists} />
+          <DialogCreateBoardComponent updateLists={this.updateLists} />
           <div style={styles.displayListStyle}>
               <BoardComponent list={this.state.sharedLists} title="Shared boards" />
               <BoardComponent list={this.state.personalLists} title="Personal boards" />

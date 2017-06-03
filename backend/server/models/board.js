@@ -32,14 +32,16 @@ module.exports = function(Board) {
     )
   };
 
-  Board.getBoardSharedWithUser = function (userid, req, res) {
-    server.models.board.find({where: {authorId: userid}}, function (err, ret) {
+  // TODO : Filter in array
+  /*Board.getBoardSharedWithUser = function (userid, req, res) {
+    let filter = {where: }
+    server.models.board.find({where: {}, function (err, ret) {
         if (err)
           throw err;
         res.status(200).send(ret);
       }
     )
-  };
+  };*/
 
   Board.getBoardOwner = function (boardid, req, res) {
     server.models.board.find({where: {id: boardid}}, function (err, ret) {
@@ -61,6 +63,13 @@ module.exports = function(Board) {
   });
 
   Board.remoteMethod('getBoardByOwnerId', {
+    accepts: [{ arg: 'userid', type: 'number', http: { source: 'query' }},
+      { arg: 'req', type: 'object', http: { source: 'req' }},
+      { arg: 'res', type: 'object', http: { source: 'res' }}],
+    http: {verb: 'get'}
+  });
+
+  Board.remoteMethod('getBoardSharedWithUser', {
     accepts: [{ arg: 'userid', type: 'number', http: { source: 'query' }},
       { arg: 'req', type: 'object', http: { source: 'req' }},
       { arg: 'res', type: 'object', http: { source: 'res' }}],

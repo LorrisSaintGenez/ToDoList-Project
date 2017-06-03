@@ -9,6 +9,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
+import Chip from 'material-ui/Chip';
 import ChipInput from 'material-ui-chip-input';
 
 import { getUserByUsername } from '../../actions/authentication.js';
@@ -72,8 +73,14 @@ class DialogCreateBoardComponent extends Component {
   handleAddChip(chip) {
     let res = getUserByUsername(chip);
     if (res) {
+      let tmp_arr = [];
+      let user = {
+        username: chip
+      };
+      tmp_arr.push(user);
+      console.log(tmp_arr);
       this.setState({
-        authorizedUsers: _.concat(this.state.authorizedUsers, chip),
+        authorizedUsers: _.concat(this.state.authorizedUsers, tmp_arr),
         unknownUser: null
       });
     }
@@ -117,7 +124,6 @@ class DialogCreateBoardComponent extends Component {
       />
     ];
 
-    console.log(this.state.unknownUsers);
     console.log(this.state.authorizedUsers);
 
     return (
@@ -143,11 +149,17 @@ class DialogCreateBoardComponent extends Component {
           {this.state.isGlobal ? (
             <div>
               <ChipInput
-                value={this.state.authorizedUsers}
+                value={_.map(this.state.authorizedUsers, (user) => {
+                  return (user.username)
+                })}
                 hintText="List all authorized users"
                 style={styles.chipInputStyle}
                 onRequestAdd={(e) => this.handleAddChip(e)}
-                onRequestDelete={(e) => this.handleDeleteChip(e)} />
+                onRequestDelete={(e) => this.handleDeleteChip(e)}>
+                {_.map(this.state.authorizedUsers, (user, index) => {
+                  return (<Chip key={index}>{user.username}</Chip>)
+                })}
+              </ChipInput>
               {this.state.unknownUser !== null ? (
                 <div>
                   User not found : {this.state.unknownUser}
