@@ -95,7 +95,7 @@ class TaskComponent extends Component {
     };
 
     if (this.props.token === null)
-      this.props.router.router.push('/');
+      window.location.href = "#/";
 
     return (
       <Card style={styles.cardStyle}>

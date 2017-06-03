@@ -46,6 +46,7 @@ class StatusBar extends Component {
     document.cookie = "token=";
     document.cookie = "id=";
     this.props.dispatch({ type: 'LOGOUT_ACT' });
+    this.simulateAnchor('/');
   }
 
   simulateAnchor(anchor) {

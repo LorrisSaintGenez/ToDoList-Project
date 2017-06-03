@@ -24,7 +24,10 @@ class MyListView extends Component {
   }
 
   componentWillMount() {
-    this.getUserBoards();
+    if (this.props.token === null)
+      window.location.href = "#/";
+    else
+      this.getUserBoards();
   }
 
   getUserBoards() {
@@ -73,9 +76,6 @@ class MyListView extends Component {
         marginTop: "30px"
       }
     };
-
-    if (this.props.token === null)
-     this.props.router.router.push('/');
 
     return (
       <div style={styles.myListViewStyle}>

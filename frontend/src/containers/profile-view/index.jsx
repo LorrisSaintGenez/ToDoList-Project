@@ -20,7 +20,7 @@ class ProfileView extends Component {
     };
 
     if (this.props.token === null)
-      this.props.router.router.push('/');
+      window.location.href = "#/";
 
     return (
       <div style={styles.profileView}>

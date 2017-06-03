@@ -95,7 +95,7 @@ class BoardView extends Component {
     };
 
     if (this.props.token === null)
-     this.props.router.router.push('/');
+      window.location.href = "#/";
 
     const actions = [
       <FlatButton
