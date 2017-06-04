@@ -11,7 +11,7 @@ import Chip from 'material-ui/Chip';
 import ChipInput from 'material-ui-chip-input';
 
 import { getUserById, getUserByUsername } from '../../actions/authentication.js';
-import { editBoard } from '../../actions/board.js';
+import { editBoard, getBoardOwner } from '../../actions/board.js';
 
 class DialogEditBoardComponent extends Component {
 
@@ -22,6 +22,11 @@ class DialogEditBoardComponent extends Component {
       error: "",
       isDialogOpen: false,
 
+	  userId: this.props.userid,
+	  board: this.props.board,
+	  author: "",
+	  currentUser: "",
+	  
       name: "",
       isGlobal: false,
       authorizedUsers: [],
@@ -36,9 +41,42 @@ class DialogEditBoardComponent extends Component {
       authorizedUsers: this.props.board.authorizedUsers,
       name: this.props.board.name
     });
+	this.getBoardAuthor();
+	this.getCurrentUser();
+  }
+  
+  getBoardAuthor() {
+    let res = getBoardOwner(this.state.board.id);
+    if (res)
+      this.setState({author: JSON.parse(res)[0].username});
+  }
+  
+  getCurrentUser() {
+	  let res = getUserById(this.props.userid, this.props.token);
+	  if (res)
+		  this.setState({currentUser: JSON.parse(res).username});
   }
 
   onBoardEdit() {
+	  
+	if (this.state.isGlobal === false) {
+		console.log("auteur");
+		console.log(this.state.author);
+		console.log("user");
+		console.log(this.state.currentUser);
+		if (this.state.author === this.state.currentUser) {
+			authorizedUsers: _.remove(this.state.authorizedUsers, (n) => {
+				return true;
+			});
+		}
+		else {
+			authorizedUsers: _.remove(this.state.authorizedUsers, (n) => {
+				return n.username === this.state.currentUser;
+			});
+		}
+		
+	}
+	
     const boardInformation = {
       name: this.state.name,
       authorizedUsers: this.state.authorizedUsers,
