@@ -23,6 +23,9 @@
       "type": [
         "object"
       ]
+    },
+    "sharedToken": {
+      "type": "string"
     }
   },
   "validations": [],

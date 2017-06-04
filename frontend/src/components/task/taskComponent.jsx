@@ -37,7 +37,6 @@ class TaskComponent extends Component {
       hasImage: this.props.item.imageUrl !== null,
       isDone: this.props.item.isDone
     });
-    console.log(this.props.item.id)
     this.getTaskAuthor();
   }
 
@@ -73,7 +72,6 @@ class TaskComponent extends Component {
 
   getTaskAuthor() {
     let res = getTaskAuthor(this.props.item.id);
-    console.log(res);
     if (res !== null) {
       this.setState({author: JSON.parse(res)[0].username});
     }

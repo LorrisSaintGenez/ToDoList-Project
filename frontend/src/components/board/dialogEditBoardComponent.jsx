@@ -22,10 +22,10 @@ class DialogEditBoardComponent extends Component {
       error: "",
       isDialogOpen: false,
 
-	  userId: this.props.userid,
-	  board: this.props.board,
-	  author: "",
-	  currentUser: "",
+      userId: this.props.userid,
+      board: this.props.board,
+      author: "",
+      currentUser: "",
 	  
       name: "",
       isGlobal: false,
@@ -59,23 +59,11 @@ class DialogEditBoardComponent extends Component {
 
   onBoardEdit() {
 	  
-	if (this.state.isGlobal === false) {
-		console.log("auteur");
-		console.log(this.state.author);
-		console.log("user");
-		console.log(this.state.currentUser);
-		if (this.state.author === this.state.currentUser) {
-			authorizedUsers: _.remove(this.state.authorizedUsers, (n) => {
-				return true;
-			});
-		}
-		else {
-			authorizedUsers: _.remove(this.state.authorizedUsers, (n) => {
-				return n.username === this.state.currentUser;
-			});
-		}
-		
-	}
+    if (!this.state.isGlobal) {
+      this.setState({authorizedUsers: _.remove(this.state.authorizedUsers, (n) => {
+        return true;
+      })});
+    }
 	
     const boardInformation = {
       name: this.state.name,
@@ -165,8 +153,6 @@ class DialogEditBoardComponent extends Component {
       />
     ];
 
-    console.log(this.state.authorizedUsers);
-
     return (
       <Dialog
         title="Edit board"
@@ -179,33 +165,37 @@ class DialogEditBoardComponent extends Component {
           hintText="Enter board's name"
           errorText={this.state.error ? "Fill with a name" : ""}
           onChange={(e) => this.handleName(e.target.value)} />
-        <Checkbox
-          defaultChecked={this.state.isGlobal}
-          style={styles.checkBoxStyle}
-          label="Share it"
-          onCheck={() => this.handleGlobal()} />
-        {this.state.isGlobal ? (
+        {this.state.author === this.state.currentUser ? (
           <div>
-            <ChipInput
-              value={_.map(this.state.authorizedUsers, (user) => {
-                return (user.username)
-              })}
-              hintText="List all authorized users"
-              style={styles.chipInputStyle}
-              onRequestAdd={(e) => this.handleAddChip(e)}
-              onRequestDelete={(e) => this.handleDeleteChip(e)}>
-              {_.map(this.state.authorizedUsers, (user, index) => {
-                return (<Chip key={index}>{user.username}</Chip>)
-              })}
-            </ChipInput>
-            {this.state.unknownUser !== null ? (
+            <Checkbox
+              defaultChecked={this.state.isGlobal}
+              style={styles.checkBoxStyle}
+              label="Share it"
+              onCheck={() => this.handleGlobal()} />
+            {this.state.isGlobal ? (
               <div>
-                User not found : {this.state.unknownUser}
-              </div>
-            ) : null}
-            {this.state.invalidUser !== null ? (
-              <div>
-                You can't add yourself : {this.state.invalidUser}
+                <ChipInput
+                  value={_.map(this.state.authorizedUsers, (user) => {
+                    return (user.username)
+                  })}
+                  hintText="List all authorized users"
+                  style={styles.chipInputStyle}
+                  onRequestAdd={(e) => this.handleAddChip(e)}
+                  onRequestDelete={(e) => this.handleDeleteChip(e)}>
+                  {_.map(this.state.authorizedUsers, (user, index) => {
+                    return (<Chip key={index}>{user.username}</Chip>)
+                  })}
+                </ChipInput>
+                {this.state.unknownUser !== null ? (
+                  <div>
+                    User not found : {this.state.unknownUser}
+                  </div>
+                ) : null}
+                {this.state.invalidUser !== null ? (
+                  <div>
+                    You can't add yourself : {this.state.invalidUser}
+                  </div>
+                ) : null}
               </div>
             ) : null}
           </div>

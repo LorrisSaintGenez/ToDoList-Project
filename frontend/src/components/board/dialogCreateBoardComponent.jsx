@@ -32,12 +32,29 @@ class DialogCreateBoardComponent extends Component {
     };
   }
 
+  generateRandomString() {
+    const keys = _.shuffle(Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"));
+
+    let sharedToken = "";
+    while (sharedToken.length < 12) {
+      _.forEach(keys, (key, index) => {
+        let ran = Math.floor(Math.random() * 5) + 1;
+        if ((index + 2) % ran === 0)
+          sharedToken += key;
+        if (sharedToken.length === 12)
+          return false;
+      });
+    }
+    return sharedToken;
+  }
+
   onBoardCreate() {
     const boardInformation = {
       name: this.state.name,
       authorizedUsers: this.state.authorizedUsers,
       isGlobal: this.state.isGlobal,
-      authorId: this.props.userid
+      authorId: this.props.userid,
+      sharedToken: this.generateRandomString()
     };
     let res = addBoard(boardInformation);
     if (res) {
