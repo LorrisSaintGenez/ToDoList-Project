@@ -172,19 +172,21 @@ class BoardView extends Component {
             <FlatButton
               style={styles.buttonStyle}
               primary={true}
-              label="Edit this board"
-              onTouchTap={() => this.onEditDialogOn()} />
-            <FlatButton
-              style={styles.buttonStyle}
-              primary={true}
               label="Share this board"
               onTouchTap={() => this.onShareDialogOn()} />
             {this.state.currentUser === this.state.author ? (
-              <FlatButton
-                style={styles.buttonStyle}
-                secondary={true}
-                label="Delete this board"
-                onTouchTap={() => this.onDeleteDialogOn()} />
+              <div>
+                <FlatButton
+                  style={styles.buttonStyle}
+                  primary={true}
+                  label="Edit this board"
+                  onTouchTap={() => this.onEditDialogOn()} />
+                <FlatButton
+                  style={styles.buttonStyle}
+                  secondary={true}
+                  label="Delete this board"
+                  onTouchTap={() => this.onDeleteDialogOn()} />
+              </div>
             ): null}
           </div>
           <UnitBoardComponent

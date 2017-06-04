@@ -44,7 +44,7 @@ class DialogEditBoardComponent extends Component {
 
   onImageHandler() {
     if (this.state.hasImage)
-      this.setState({imageUrl: this.props.item.imageUrl});
+      this.setState({imageUrl: null});
     this.setState({hasImage: !this.state.hasImage});
   }
 
@@ -61,7 +61,7 @@ class DialogEditBoardComponent extends Component {
     const taskInformation = {
       name: this.state.name,
       description: this.state.description,
-      imageUrl: this.state.imageUrl !== null ? this.state.imageUrl : null
+      imageUrl: this.state.hasImage ? this.state.imageUrl : null
     };
     let res = updateBoardItem(this.props.item.id, taskInformation);
     if (res) {
