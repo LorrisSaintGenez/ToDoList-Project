@@ -13,7 +13,7 @@ import Chip from 'material-ui/Chip';
 import ChipInput from 'material-ui-chip-input';
 
 import { getUserById, getUserByUsername } from '../../actions/authentication.js';
-import { addBoard } from '../../actions/board.js';
+import { addBoard, getBoardWithToken, editBoard } from '../../actions/board.js';
 
 class DialogCreateBoardComponent extends Component {
 
@@ -23,12 +23,13 @@ class DialogCreateBoardComponent extends Component {
     this.state = {
       error: "",
       isDialogOpen: false,
-
+      sharedToken: "",
       name: "",
       isGlobal: false,
       authorizedUsers: [],
       unknownUser: null,
-      invalidUser: null
+      invalidUser: null,
+      isTokenInvalid: false
     };
   }
 
@@ -77,7 +78,8 @@ class DialogCreateBoardComponent extends Component {
       isDialogOpen: false,
       isChecked: false,
       unknownUser: null,
-      invalidUser: null
+      invalidUser: null,
+      isTokenInvalid: false
     });
   }
 
@@ -118,6 +120,39 @@ class DialogCreateBoardComponent extends Component {
     })});
   }
 
+  handleSharedToken(token) {
+    if (this.state.isTokenInvalid)
+      this.setState({isTokenInvalid: false});
+    this.setState({sharedToken: token});
+  }
+
+  joinBoardWithToken() {
+    let board = JSON.parse(getBoardWithToken(this.state.sharedToken));
+    let res = JSON.parse(getUserById(this.props.userid, this.props.token));
+    if (board && res && (board.authorId !== res.id) && !board.authorizedUsers.some((e) => {return e.username === res.username})) {
+      let tmp_arr = [];
+      let user = {
+        username: res.username
+      };
+      tmp_arr.push(user);
+      let authorizedUsers = _.concat(board.authorizedUsers, tmp_arr);
+      const boardInformations = {
+        name: board.name,
+        authorizedUsers: authorizedUsers,
+        isGlobal: true,
+        authorId: board.userid,
+        sharedToken: board.sharedToken
+      };
+      let joinBoard = editBoard(boardInformations, board.id);
+      if (joinBoard) {
+        this.onDialogClose();
+        this.props.updateLists();
+      }
+    }
+    else
+      this.setState({isTokenInvalid: true});
+  }
+
   render() {
 
     const styles = {
@@ -136,6 +171,16 @@ class DialogCreateBoardComponent extends Component {
       },
       floatingButtonStyle: {
         boxShadow: "none"
+      },
+      dialogStyle: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-around"
+      },
+      insideDialogStyle: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between"
       }
     };
 
@@ -144,8 +189,12 @@ class DialogCreateBoardComponent extends Component {
         label="Create"
         primary={true}
         disabled={this.state.name === "" || this.state.name.length > 20 || (this.state.isGlobal ? this.state.authorizedUsers.length === 0 : false)}
-        onTouchTap={() => this.onBoardCreate()}
-      />
+        onTouchTap={() => this.onBoardCreate()} />,
+      <FlatButton
+        label="Join the board"
+        onTouchTap={() => this.joinBoardWithToken()}
+        disabled={this.state.sharedToken.length !== 12}
+        primary={true} />
     ];
 
     return (
@@ -155,45 +204,61 @@ class DialogCreateBoardComponent extends Component {
           <ContentAdd />
         </FloatingActionButton>
         <Dialog
-          title="New board"
+          bodyStyle={styles.dialogStyle}
+          title="Add a board"
           actions={actions}
           open={this.state.isDialogOpen}
           onRequestClose={() => this.onDialogClose()}>
-          <TextField
-            type="text"
-            hintText="Enter board's name"
-            errorText={this.state.error ? "Fill with a name" : ""}
-            onChange={(e) => this.handleName(e.target.value)} />
-          <Checkbox
-            style={styles.checkBoxStyle}
-            label="Share it"
-            onCheck={() => this.handleGlobal()} />
-          {this.state.isGlobal ? (
+          <div style={styles.insideDialogStyle}>
             <div>
-              <ChipInput
-                value={_.map(this.state.authorizedUsers, (user) => {
-                  return (user.username)
-                })}
-                hintText="List all authorized users"
-                style={styles.chipInputStyle}
-                onRequestAdd={(e) => this.handleAddChip(e)}
-                onRequestDelete={(e) => this.handleDeleteChip(e)}>
-                {_.map(this.state.authorizedUsers, (user, index) => {
-                  return (<Chip key={index}>{user.username}</Chip>)
-                })}
-              </ChipInput>
-              {this.state.unknownUser !== null ? (
-                <div>
-                  User not found : {this.state.unknownUser}
-                </div>
-              ) : null}
-              {this.state.invalidUser !== null ? (
-                <div>
-                  You can't add yourself : {this.state.invalidUser}
-                </div>
-              ) : null}
+              Create a board<br/>
+              <TextField
+                type="text"
+                hintText="Enter board's name"
+                errorText={this.state.error ? "Fill with a name" : ""}
+                onChange={(e) => this.handleName(e.target.value)} />
             </div>
-          ) : null}
+            <div>
+              Join a board<br/>
+              <TextField
+                type="text"
+                hintText="Shared token"
+                errorText={this.state.isTokenInvalid ? "Invalid token" : ""}
+                onChange={(e) => this.handleSharedToken(e.target.value)}/>
+            </div>
+          </div>
+          <div>
+            <Checkbox
+              style={styles.checkBoxStyle}
+              label="Share it"
+              onCheck={() => this.handleGlobal()} />
+            {this.state.isGlobal ? (
+              <div>
+                <ChipInput
+                  value={_.map(this.state.authorizedUsers, (user) => {
+                    return (user.username)
+                  })}
+                  hintText="List all authorized users"
+                  style={styles.chipInputStyle}
+                  onRequestAdd={(e) => this.handleAddChip(e)}
+                  onRequestDelete={(e) => this.handleDeleteChip(e)}>
+                  {_.map(this.state.authorizedUsers, (user, index) => {
+                    return (<Chip key={index}>{user.username}</Chip>)
+                  })}
+                </ChipInput>
+                {this.state.unknownUser !== null ? (
+                  <div>
+                    User not found : {this.state.unknownUser}
+                  </div>
+                ) : null}
+                {this.state.invalidUser !== null ? (
+                  <div>
+                    You can't add yourself : {this.state.invalidUser}
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
         </Dialog>
       </div>
     );

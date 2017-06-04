@@ -53,3 +53,11 @@ export const getBoardOwner = boardId => {
   xhttp.send();
   return xhttp.responseText;
 };
+
+export const getBoardWithToken = token => {
+  let xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "http://localhost:3000/api/boards/getBoardWithToken?token=" + token, false);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send();
+  return xhttp.status === 200 && xhttp.readyState === 4 ? xhttp.responseText : null;
+};

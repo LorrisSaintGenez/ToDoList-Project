@@ -10,7 +10,6 @@ module.exports = function(Board) {
     server.models.todoUser.findById(boardInformations.authorId, function (err, ret) {
       if (err)
         throw err;
-      console.log(ret);
       server.models.Board.create({
         name: boardInformations.name,
         authorId: ret.id,
@@ -20,7 +19,7 @@ module.exports = function(Board) {
       }, function (err2, cb) {
         if (err2)
           throw err2;
-        res.status(200).send(cb);
+        res.status(200).send(null);
       })
     })
   };
@@ -65,9 +64,20 @@ module.exports = function(Board) {
     )
   };
 
+  Board.getBoardWithToken = function (token, req, res) {
+    server.models.board.find({where: {sharedToken: token}}, function (err, ret) {
+        if (err)
+          throw err;
+        if (ret.length === 0)
+          res.status(404).send(null);
+        res.status(200).send(ret[0]);
+      }
+    )
+  };
+
   Board.remoteMethod('createNewBoard', {
     accepts: [{ arg: 'req', type: 'object', http: { source: 'req' }},
-    { arg: 'res', type: 'object', http: { source: 'res' }}],
+      { arg: 'res', type: 'object', http: { source: 'res' }}],
     http: {verb: 'post'}
   });
 
@@ -91,4 +101,11 @@ module.exports = function(Board) {
       { arg: 'res', type: 'object', http: { source: 'res' }}],
     http: {verb: 'get'}
   });
+
+  Board.remoteMethod('getBoardWithToken', {
+    accepts: [{ arg: 'token', type: 'string', http: { source: 'query' }},
+      { arg: 'req', type: 'object', http: { source: 'req' }},
+      { arg: 'res', type: 'object', http: { source: 'res' }}],
+    http: {verb: 'get'}
+  })
 };
