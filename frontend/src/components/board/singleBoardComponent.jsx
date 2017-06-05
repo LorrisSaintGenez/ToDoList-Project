@@ -1,16 +1,34 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import { getBoardItems, getBoardCompletedItems } from '../../actions/boarditem.js';
 
 import Divider from 'material-ui/Divider';
+import _ from 'lodash';
 
 class SingleBoardComponent extends Component {
 
   constructor(props) {
     super(props);
+	
+	this.state = {
+		total: this.countBoardItems(), 
+		completed: this.countBoardCompletedItems()
+	};
+	
   }
-
+  
   goToBoardId(id) {
     window.location.href = "#/list/" + id;
+  }
+  
+  countBoardItems() {
+	let items = getBoardItems(this.props.list.id);
+	return JSON.parse(items).length;
+  }
+  
+  countBoardCompletedItems() {
+	let items = getBoardCompletedItems(this.props.list.id);
+	return JSON.parse(items).length;
   }
 
   render() {
@@ -60,6 +78,7 @@ class SingleBoardComponent extends Component {
         {list.authorizedUsers.length > 0 ?
             <h3 style={styles.textColor}>Shared with {list.authorizedUsers.length} {list.authorizedUsers.length > 1 ? "users" : "user"}</h3>
           : <h3 style={styles.textColor}>Personnal board</h3>}
+		<h4>{this.state.completed}/{this.state.total} completed</h4>
       </div>
     );
   }

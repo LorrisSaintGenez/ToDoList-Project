@@ -6,6 +6,15 @@ export const getBoardItems = boardID => {
   return xhttp.status === 200 && xhttp.readyState === 4 ? xhttp.responseText : null;
 };
 
+export const getBoardCompletedItems = boardID => {
+  let xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "http://localhost:3000/api/itemBoards?filter[where][boardId]=" + boardID
+					+ "&filter[where][isDone]=true", false);
+  xhttp.setRequestHeader("Content-type", "application/json");
+  xhttp.send();
+  return xhttp.status === 200 && xhttp.readyState === 4 ? xhttp.responseText : null;
+};
+
 export const addBoardItem = itemInformations => {
   let xhttp = new XMLHttpRequest();
   xhttp.open("POST", "http://localhost:3000/api/itemBoards", false);
