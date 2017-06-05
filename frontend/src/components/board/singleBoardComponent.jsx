@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { getBoardItems, getBoardCompletedItems } from '../../actions/boarditem.js';
 
 import Divider from 'material-ui/Divider';
-import _ from 'lodash';
 
 class SingleBoardComponent extends Component {
 
@@ -23,12 +22,18 @@ class SingleBoardComponent extends Component {
   
   countBoardItems() {
 	let items = getBoardItems(this.props.list.id);
-	return JSON.parse(items).length;
+	if (items)
+		return JSON.parse(items).length;
+	else
+		return 0;
   }
   
   countBoardCompletedItems() {
 	let items = getBoardCompletedItems(this.props.list.id);
-	return JSON.parse(items).length;
+	if (items)
+		return JSON.parse(items).length;
+	else
+		return 0;
   }
 
   render() {
