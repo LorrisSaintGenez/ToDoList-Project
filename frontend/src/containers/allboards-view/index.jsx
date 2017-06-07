@@ -10,7 +10,7 @@ import DialogCreateBoardComponent from '../../components/board/dialogCreateBoard
 import { getBoardByOwnerId, getBoardSharedWithUser } from '../../actions/board.js';
 import { getUserById } from '../../actions/authentication.js';
 
-class MyListView extends Component {
+class AllBoardView extends Component {
 
   constructor(props) {
     super(props);
@@ -31,22 +31,23 @@ class MyListView extends Component {
   }
 
   getUserBoards() {
-    let res = JSON.parse(getBoardByOwnerId(this.props.userid));
-    let personal = [];
-    let shared = [];
-    _.forEach(res, list => {
-      if (list.authorizedUsers.length > 0)
-        shared.push(list);
-      else
-        personal.push(list);
-    });
+    getBoardByOwnerId(this.props.userid, (res) => {
+      let personal = [];
+      let shared = [];
+      _.forEach(res, list => {
+        if (list.authorizedUsers.length > 0)
+          shared.push(list);
+        else
+          personal.push(list);
+      });
 
-    let userInfos = JSON.parse(getUserById(this.props.userid, this.props.token));
-    res = JSON.parse(getBoardSharedWithUser(userInfos.username));
+      let userInfos = JSON.parse(getUserById(this.props.userid, this.props.token));
+      let boardShared = JSON.parse(getBoardSharedWithUser(userInfos.username));
 
-    this.setState({
-      personalLists: personal,
-      sharedLists: _.merge(shared, res)
+      this.setState({
+        personalLists: personal,
+        sharedLists: _.concat(shared, boardShared)
+      });
     });
   }
 
@@ -99,4 +100,4 @@ const mapStateToProps = (store, router) => {
   }
 };
 
-export default connect(mapStateToProps)(MyListView);
+export default connect(mapStateToProps)(AllBoardView);

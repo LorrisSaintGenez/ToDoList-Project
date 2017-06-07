@@ -10,7 +10,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 import HomeView from '../home-view/index.jsx'
 import ProfileView from '../profile-view/index.jsx'
 import ConnectionView from '../connection-view/index.jsx'
-import MyListView from '../mylist-view/index.jsx';
+import AllBoardView from '../allboards-view/index.jsx';
 import BoardView from '../board-view/index.jsx';
 
 class RootView extends Component {
@@ -50,7 +50,7 @@ class RootView extends Component {
         <Route exact path='/' component={HomeView} />
         <Route path='/profile' component={ProfileView} />
         <Route path='/login' component={ConnectionView} />
-        <Route path='/list' component={MyListView} />
+        <Route path='/list' component={AllBoardView} />
         <Route path='/list/:id' component={BoardView} />
       </Route>;
 
