@@ -8,17 +8,20 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import Checkbox from 'material-ui/Checkbox';
-import Chip from 'material-ui/Chip';
-import ChipInput from 'material-ui-chip-input';
 
 import { getUserById, getUserByUsername } from '../../actions/authentication.js';
 import { addBoard, getBoardWithToken, editBoard } from '../../actions/board.js';
+
+import SharedUsersComponent from './sharedUsersComponent.jsx';
 
 class DialogCreateBoardComponent extends Component {
 
   constructor(props) {
     super(props);
+
+    this.handleGlobal = this.handleGlobal.bind(this);
+    this.handleAddChip = this.handleAddChip.bind(this);
+    this.handleDeleteChip = this.handleDeleteChip.bind(this);
 
     this.state = {
       error: "",
@@ -227,38 +230,14 @@ class DialogCreateBoardComponent extends Component {
                 onChange={(e) => this.handleSharedToken(e.target.value)}/>
             </div>
           </div>
-          <div>
-            <Checkbox
-              style={styles.checkBoxStyle}
-              label="Share it"
-              onCheck={() => this.handleGlobal()} />
-            {this.state.isGlobal ? (
-              <div>
-                <ChipInput
-                  value={_.map(this.state.authorizedUsers, (user) => {
-                    return (user.username)
-                  })}
-                  hintText="List all authorized users"
-                  style={styles.chipInputStyle}
-                  onRequestAdd={(e) => this.handleAddChip(e)}
-                  onRequestDelete={(e) => this.handleDeleteChip(e)}>
-                  {_.map(this.state.authorizedUsers, (user, index) => {
-                    return (<Chip key={index}>{user.username}</Chip>)
-                  })}
-                </ChipInput>
-                {this.state.unknownUser !== null ? (
-                  <div>
-                    User not found : {this.state.unknownUser}
-                  </div>
-                ) : null}
-                {this.state.invalidUser !== null ? (
-                  <div>
-                    You can't add yourself : {this.state.invalidUser}
-                  </div>
-                ) : null}
-              </div>
-            ) : null}
-          </div>
+          <SharedUsersComponent
+            handleGlobal={this.handleGlobal}
+            isGlobal={this.state.isGlobal}
+            authorizedUsers={this.state.authorizedUsers}
+            handleAddChip={this.handleAddChip}
+            handleDeleteChip={this.handleDeleteChip}
+            unknownUser={this.state.unknownUser}
+            invalidUser={this.state.invalidUser} />
         </Dialog>
       </div>
     );

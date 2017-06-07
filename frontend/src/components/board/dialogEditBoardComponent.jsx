@@ -6,17 +6,20 @@ import _ from 'lodash';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import Checkbox from 'material-ui/Checkbox';
-import Chip from 'material-ui/Chip';
-import ChipInput from 'material-ui-chip-input';
 
 import { getUserById, getUserByUsername } from '../../actions/authentication.js';
 import { editBoard, getBoardOwner } from '../../actions/board.js';
+
+import SharedUsersComponent from './sharedUsersComponent.jsx';
 
 class DialogEditBoardComponent extends Component {
 
   constructor(props) {
     super(props);
+
+    this.handleGlobal = this.handleGlobal.bind(this);
+    this.handleAddChip = this.handleAddChip.bind(this);
+    this.handleDeleteChip = this.handleDeleteChip.bind(this);
 
     this.state = {
       error: "",
@@ -131,19 +134,6 @@ class DialogEditBoardComponent extends Component {
 
   render() {
 
-    const styles = {
-      checkBoxStyle: {
-        marginTop: "40px",
-        marginBottom: "10px"
-      },
-      chipInputStyle: {
-        width: "80%",
-      },
-      floatingButtonStyle: {
-        boxShadow: "none"
-      }
-    };
-
     const actions = [
       <FlatButton
         label="Edit"
@@ -166,39 +156,14 @@ class DialogEditBoardComponent extends Component {
           errorText={this.state.error ? "Fill with a name" : ""}
           onChange={(e) => this.handleName(e.target.value)} />
         {this.state.author === this.state.currentUser ? (
-          <div>
-            <Checkbox
-              defaultChecked={this.state.isGlobal}
-              style={styles.checkBoxStyle}
-              label="Share it"
-              onCheck={() => this.handleGlobal()} />
-            {this.state.isGlobal ? (
-              <div>
-                <ChipInput
-                  value={_.map(this.state.authorizedUsers, (user) => {
-                    return (user.username)
-                  })}
-                  hintText="List all authorized users"
-                  style={styles.chipInputStyle}
-                  onRequestAdd={(e) => this.handleAddChip(e)}
-                  onRequestDelete={(e) => this.handleDeleteChip(e)}>
-                  {_.map(this.state.authorizedUsers, (user, index) => {
-                    return (<Chip key={index}>{user.username}</Chip>)
-                  })}
-                </ChipInput>
-                {this.state.unknownUser !== null ? (
-                  <div>
-                    User not found : {this.state.unknownUser}
-                  </div>
-                ) : null}
-                {this.state.invalidUser !== null ? (
-                  <div>
-                    You can't add yourself : {this.state.invalidUser}
-                  </div>
-                ) : null}
-              </div>
-            ) : null}
-          </div>
+          <SharedUsersComponent
+            handleGlobal={this.handleGlobal}
+            isGlobal={this.state.isGlobal}
+            authorizedUsers={this.state.authorizedUsers}
+            handleAddChip={this.handleAddChip}
+            handleDeleteChip={this.handleDeleteChip}
+            unknownUser={this.state.unknownUser}
+            invalidUser={this.state.invalidUser} />
         ) : null}
       </Dialog>
     );

@@ -24,6 +24,11 @@
         "object"
       ]
     },
+    "history": {
+      "type": [
+        "string"
+      ]
+    },
     "sharedToken": {
       "type": "string"
     }

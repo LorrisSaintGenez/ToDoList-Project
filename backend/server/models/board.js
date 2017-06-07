@@ -15,7 +15,8 @@ module.exports = function(Board) {
         authorId: ret.id,
         isGlobal: boardInformations.isGlobal,
         authorizedUsers: boardInformations.authorizedUsers,
-        sharedToken: boardInformations.sharedToken
+        sharedToken: boardInformations.sharedToken,
+        history: boardInformations.history
       }, function (err2, cb) {
         if (err2)
           throw err2;
