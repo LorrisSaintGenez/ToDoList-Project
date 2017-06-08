@@ -4,6 +4,8 @@ import StatusBar from "../common/statusBar.jsx";
 import { getUserById } from "../../actions/authentication.js";
 import { getBoardByOwnerId, getBoardSharedWithUser } from "../../actions/board.js";
 
+import Divider from 'material-ui/Divider';
+
 class ProfileView extends Component {
 
   constructor(props) {
@@ -44,8 +46,6 @@ class ProfileView extends Component {
 	     this.setState({nbPersonalBoard: perso.length});
 	
 	   }
-	   console.log("name :");
-	   console.log(name);
 	   let shared = getBoardSharedWithUser(name);
 	   if (shared) {
 		 this.setState({nbSharedBoard: JSON.parse(shared).length});
@@ -56,6 +56,9 @@ class ProfileView extends Component {
   render() {
 
     const styles = {
+	  textColor: {
+        color: "#5f5f5f"
+      },
       profileView: {
         left: "0px",
         top: "0px",
@@ -77,11 +80,14 @@ class ProfileView extends Component {
         <StatusBar dispatch={this.props.dispatch}/>
 		<div style={styles.infoView}>
 			<h1>Profile page</h1>
-			<h4>username : {this.state.username}</h4>
-			<h4>email : {this.state.email}</h4>
-			<h4>Shared boards you own : {this.state.nbAuthoredBoard}</h4>
-			<h4>Shared boards you contribute to : {this.state.nbSharedBoard}</h4>
-			<h4>Personal boards : {this.state.nbPersonalBoard}</h4>
+		</div>
+		<Divider/>
+		<div style={styles.infoView}>
+			<h4 style={styles.textColor}>Username : {this.state.username}</h4>
+			<h4 style={styles.textColor}>Email : {this.state.email}</h4>
+			<h4 style={styles.textColor}>Shared boards you own : {this.state.nbAuthoredBoard}</h4>
+			<h4 style={styles.textColor}>Shared boards you contribute to : {this.state.nbSharedBoard}</h4>
+			<h4 style={styles.textColor}>Personal boards : {this.state.nbPersonalBoard}</h4>
 		</div>
       </div>
     );
