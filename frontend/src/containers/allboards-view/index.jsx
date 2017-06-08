@@ -58,12 +58,6 @@ class AllBoardView extends Component {
   render() {
 
     const styles = {
-      myListViewStyle: {
-        left: "0px",
-        top: "0px",
-        position: "absolute",
-        width: "100%"
-      },
       newBoard: {
         display: "flex",
         flexDirection: "column",
@@ -79,14 +73,11 @@ class AllBoardView extends Component {
     };
 
     return (
-      <div style={styles.myListViewStyle}>
-        <StatusBar />
-        <div style={styles.newBoard}>
-          <DialogCreateBoardComponent updateLists={this.updateLists} />
-          <div style={styles.displayListStyle}>
-              <BoardComponent list={this.state.sharedLists} title="Shared boards" />
-              <BoardComponent list={this.state.personalLists} title="Personal boards" />
-          </div>
+      <div style={styles.newBoard}>
+        <DialogCreateBoardComponent updateLists={this.updateLists} />
+        <div style={styles.displayListStyle}>
+            <BoardComponent list={this.state.sharedLists} title="Shared boards" />
+            <BoardComponent list={this.state.personalLists} title="Personal boards" />
         </div>
       </div>
     );

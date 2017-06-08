@@ -35,10 +35,7 @@ class ConnectionView extends Component {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        width: "100%",
-        left: "0px",
-        top: "0px",
-        position: "absolute"
+        width: "100%"
       },
       contentStyle: {
         display: "flex",
@@ -58,7 +55,6 @@ class ConnectionView extends Component {
 
     return (
       <div style={styles.connectionViewStyle}>
-        <StatusBar dispatch={this.props.dispatch}/>
         <div style={styles.contentStyle}>
           <ConnectionComponent isSignup={false}
                                dispatch={this.props.dispatch}

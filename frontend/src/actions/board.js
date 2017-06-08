@@ -6,19 +6,12 @@ export const addBoard = boardInformations => {
   return xhttp.status === 200 && xhttp.readyState === 4;
 };
 
-export const getBoardByOwnerId = (userid, cb) => {
+export const getBoardByOwnerId = userid => {
   let xhttp = new XMLHttpRequest();
   xhttp.open("GET", "http://localhost:3000/api/boards/getBoardByOwnerId?userid=" + userid, true);
   xhttp.setRequestHeader("Content-type", "application/json");
-  xhttp.onload = () => {
-    if (xhttp.readyState === 4) {
-      cb(JSON.parse(xhttp.responseText));
-    }
-    else {
-      cb(null);
-    }
-  };
   xhttp.send();
+  return xhttp.readyState === 4 ? xhttp.responseText : null;
 };
 
 export const getBoardSharedWithUser = username => {

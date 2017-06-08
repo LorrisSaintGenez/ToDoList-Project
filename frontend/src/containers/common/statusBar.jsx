@@ -56,6 +56,12 @@ class StatusBar extends Component {
   render() {
 
     const styles = {
+      todolistDisplay: {
+        position: "absolute",
+        top: "0px",
+        left: "0px",
+        width: "100%"
+      },
       banner: {
         display: "flex",
         flexFlow: "row wrap",
@@ -65,7 +71,7 @@ class StatusBar extends Component {
         backgroundColor: "#959fa9",//'grey',
         minHeight: "50px",
         borderBottom: "solid 1px #dddce1",
-        boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.13)"
+        boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.13)",
       },
       flatButtonStyle: {
         marginLeft: "20px",
@@ -76,21 +82,24 @@ class StatusBar extends Component {
     };
 
     return (
-      <div style={styles.banner}>
-        {_.map((this.props.token === null ? this.state.linkButtonLogOff : this.state.linkButtonLogOn), (item, index) => {
-          return (
-            <FlatButton
-              key={index}
-              style={styles.flatButtonStyle}
-              label={item.name}
-              labelStyle={styles.flatButtonLabel}
-              hoverColor="rgb(181, 192, 202)"
-              onClick={ index === 3 && this.props.token !== null
-                ? (() => this.logoutAction())
-                : (() => this.simulateAnchor(item.path)) } >
-            </FlatButton>
-          );
-        })}
+      <div style={styles.todolistDisplay}>
+        <div style={styles.banner}>
+          {_.map((this.props.token === null ? this.state.linkButtonLogOff : this.state.linkButtonLogOn), (item, index) => {
+            return (
+              <FlatButton
+                key={index}
+                style={styles.flatButtonStyle}
+                label={item.name}
+                labelStyle={styles.flatButtonLabel}
+                hoverColor="rgb(181, 192, 202)"
+                onClick={ index === 3 && this.props.token !== null
+                  ? (() => this.logoutAction())
+                  : (() => this.simulateAnchor(item.path)) } >
+              </FlatButton>
+            );
+          })}
+        </div>
+        { this.props.children }
       </div>
     );
   }

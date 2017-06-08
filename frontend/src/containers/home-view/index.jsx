@@ -13,17 +13,10 @@ class HomeView extends Component {
 
   render() {
     const styles = {
-      homeView: {
-        left: "0px",
-        top: "0px",
-        position: "absolute",
-        width: "100%"
-      }
     };
 
     return (
-      <div style={styles.homeView}>
-        <StatusBar dispatch={this.props.dispatch}/>
+      <div>
         Welcome on ToDoList !
       </div>
     );

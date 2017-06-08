@@ -156,68 +156,65 @@ class BoardView extends Component {
     ];
 
     return (
-      <div style={styles.myListViewStyle}>
-        <StatusBar />
-        <div style={styles.newBoard}>
-          <div style={styles.buttonList}>
-            <FlatButton
-              style={styles.buttonStyle}
-              label="< Back to boards"
-              onClick={() => this.backToBoards()} />
-            <FlatButton
-              style={styles.buttonStyle}
-              primary={true}
-              label="Add new task"
-              onTouchTap={() => this.onDialogOpen()} />
-            <FlatButton
-              style={styles.buttonStyle}
-              primary={true}
-              label="Share this board"
-              onTouchTap={() => this.onShareDialogOn()} />
-            {this.state.currentUser === this.state.author ? (
-              <div>
-                <FlatButton
-                  style={styles.buttonStyle}
-                  primary={true}
-                  label="Edit this board"
-                  onTouchTap={() => this.onEditDialogOn()} />
-                <FlatButton
-                  style={styles.buttonStyle}
-                  secondary={true}
-                  label="Delete this board"
-                  onTouchTap={() => this.onDeleteDialogOn()} />
-              </div>
-            ): null}
-          </div>
-          <UnitBoardComponent
-            board={this.state.board}
-            boardItems={this.state.boardItems}
-            getBoardItems={this.getBoardItems} />
-          <Dialog
-            title={"You want to share your list ? Give this token to your friends : " + this.state.board.sharedToken}
-            actions={actionShare}
-            modal={false}
-            open={this.state.isShareDialogOn}
-            onRequestClose={() => this.onShareDialogOff()} />
-          <Dialog
-            title="Are you sure you want to delete this board ?"
-            actions={actions}
-            modal={false}
-            open={this.state.isDeleteDialogOpen}
-            onRequestClose={() => this.onDeleteDialogOff()} />
-          <DialogCreateTaskComponent
-            isDialogOpen={this.state.isDialogOpen}
-            onDialogClose={this.onDialogClose}
-            getBoardItems={this.getBoardItems}
-            board={this.state.board}
-            user={this.props.userid} />
-          <DialogEditBoardComponent
-            board={this.state.board}
-            user={this.props.userid}
-            isEditDialogOn={this.state.isEditDialogOn}
-            onEditDialogOff={this.onEditDialogOff}
-            getBoard={this.getBoard} />
+      <div style={styles.newBoard}>
+        <div style={styles.buttonList}>
+          <FlatButton
+            style={styles.buttonStyle}
+            label="< Back to boards"
+            onClick={() => this.backToBoards()} />
+          <FlatButton
+            style={styles.buttonStyle}
+            primary={true}
+            label="Add new task"
+            onTouchTap={() => this.onDialogOpen()} />
+          <FlatButton
+            style={styles.buttonStyle}
+            primary={true}
+            label="Share this board"
+            onTouchTap={() => this.onShareDialogOn()} />
+          {this.state.currentUser === this.state.author ? (
+            <div>
+              <FlatButton
+                style={styles.buttonStyle}
+                primary={true}
+                label="Edit this board"
+                onTouchTap={() => this.onEditDialogOn()} />
+              <FlatButton
+                style={styles.buttonStyle}
+                secondary={true}
+                label="Delete this board"
+                onTouchTap={() => this.onDeleteDialogOn()} />
+            </div>
+          ): null}
         </div>
+        <UnitBoardComponent
+          board={this.state.board}
+          boardItems={this.state.boardItems}
+          getBoardItems={this.getBoardItems} />
+        <Dialog
+          title={"You want to share your list ? Give this token to your friends : " + this.state.board.sharedToken}
+          actions={actionShare}
+          modal={false}
+          open={this.state.isShareDialogOn}
+          onRequestClose={() => this.onShareDialogOff()} />
+        <Dialog
+          title="Are you sure you want to delete this board ?"
+          actions={actions}
+          modal={false}
+          open={this.state.isDeleteDialogOpen}
+          onRequestClose={() => this.onDeleteDialogOff()} />
+        <DialogCreateTaskComponent
+          isDialogOpen={this.state.isDialogOpen}
+          onDialogClose={this.onDialogClose}
+          getBoardItems={this.getBoardItems}
+          board={this.state.board}
+          user={this.props.userid} />
+        <DialogEditBoardComponent
+          board={this.state.board}
+          user={this.props.userid}
+          isEditDialogOn={this.state.isEditDialogOn}
+          onEditDialogOff={this.onEditDialogOff}
+          getBoard={this.getBoard} />
       </div>
     );
   }
