@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import _ from 'lodash';
 
-import StatusBar from "../common/statusBar.jsx";
 import BoardComponent from '../../components/board/boardComponent.jsx';
 import DialogCreateBoardComponent from '../../components/board/dialogCreateBoardComponent.jsx';
 
@@ -31,23 +30,22 @@ class AllBoardView extends Component {
   }
 
   getUserBoards() {
-    getBoardByOwnerId(this.props.userid, (res) => {
-      let personal = [];
-      let shared = [];
-      _.forEach(res, list => {
-        if (list.authorizedUsers.length > 0)
-          shared.push(list);
-        else
-          personal.push(list);
-      });
+    let res = JSON.parse(getBoardByOwnerId(this.props.userid));
+    let personal = [];
+    let shared = [];
+    _.forEach(res, list => {
+      if (list.authorizedUsers.length > 0)
+        shared.push(list);
+      else
+        personal.push(list);
+    });
 
-      let userInfos = JSON.parse(getUserById(this.props.userid, this.props.token));
-      let boardShared = JSON.parse(getBoardSharedWithUser(userInfos.username));
+    let userInfos = JSON.parse(getUserById(this.props.userid, this.props.token));
+    let boardShared = JSON.parse(getBoardSharedWithUser(userInfos.username));
 
-      this.setState({
-        personalLists: personal,
-        sharedLists: _.concat(shared, boardShared)
-      });
+    this.setState({
+      personalLists: personal,
+      sharedLists: _.concat(shared, boardShared)
     });
   }
 

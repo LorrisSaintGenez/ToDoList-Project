@@ -8,10 +8,10 @@ export const addBoard = boardInformations => {
 
 export const getBoardByOwnerId = userid => {
   let xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "http://localhost:3000/api/boards/getBoardByOwnerId?userid=" + userid, true);
+  xhttp.open("GET", "http://localhost:3000/api/boards/getBoardByOwnerId?userid=" + userid, false);
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send();
-  return xhttp.readyState === 4 ? xhttp.responseText : null;
+  return xhttp.responseText;
 };
 
 export const getBoardSharedWithUser = username => {

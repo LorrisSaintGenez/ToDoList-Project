@@ -21,11 +21,7 @@ class ProfileView extends Component {
   }
   
   componentWillMount() {
-	this.getBoards();
-  }
-  
-  getUserInfo() {
-   
+		this.getBoards();
   }
   
   getBoards() {
@@ -56,20 +52,12 @@ class ProfileView extends Component {
   render() {
 
     const styles = {
-	  textColor: {
+	  	textColor: {
         color: "#5f5f5f"
       },
-      profileView: {
-        left: "0px",
-        top: "0px",
-        position: "absolute",
-        width: "100%"
-      },
-	  infoView: {
-		left: "20px",
-        position: "relative",
-        width: "100%"
-	  }
+			infoView: {
+				marginLeft: "20px"
+			}
     };
 
     if (this.props.token === null)
@@ -77,18 +65,17 @@ class ProfileView extends Component {
 
     return (
       <div style={styles.profileView}>
-        <StatusBar dispatch={this.props.dispatch}/>
-		<div style={styles.infoView}>
-			<h1>Profile page</h1>
-		</div>
-		<Divider/>
-		<div style={styles.infoView}>
-			<h4 style={styles.textColor}>Username : {this.state.username}</h4>
-			<h4 style={styles.textColor}>Email : {this.state.email}</h4>
-			<h4 style={styles.textColor}>Shared boards you own : {this.state.nbAuthoredBoard}</h4>
-			<h4 style={styles.textColor}>Shared boards you contribute to : {this.state.nbSharedBoard}</h4>
-			<h4 style={styles.textColor}>Personal boards : {this.state.nbPersonalBoard}</h4>
-		</div>
+				<div style={styles.infoView}>
+					<h1>Profile page</h1>
+				</div>
+				<Divider/>
+				<div style={styles.infoView}>
+					<h4 style={styles.textColor}>Username : {this.state.username}</h4>
+					<h4 style={styles.textColor}>Email : {this.state.email}</h4>
+					<h4 style={styles.textColor}>Shared boards you own : {this.state.nbAuthoredBoard}</h4>
+					<h4 style={styles.textColor}>Shared boards you contribute to : {this.state.nbSharedBoard}</h4>
+					<h4 style={styles.textColor}>Personal boards : {this.state.nbPersonalBoard}</h4>
+				</div>
       </div>
     );
   }
