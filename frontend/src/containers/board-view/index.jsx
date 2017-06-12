@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 
-import StatusBar from '../common/statusBar.jsx';
 import UnitBoardComponent from '../../components/board/unitBoardComponent.jsx';
 import DialogCreateTaskComponent from '../../components/task/dialogCreateTaskComponent.jsx';
 import DialogEditBoardComponent from '../../components/board/dialogEditBoardComponent.jsx';
+import BoardOptionsComponent from '../../components/board/boardOptionsComponent.jsx';
 
 import { getBoard, deleteBoard, getBoardOwner } from '../../actions/board.js';
 import { getBoardItems, deleteBoardItem } from '../../actions/boarditem.js';
@@ -22,6 +22,10 @@ class BoardView extends Component {
     this.onDialogClose = this.onDialogClose.bind(this);
     this.onEditDialogOff = this.onEditDialogOff.bind(this);
     this.getBoard = this.getBoard.bind(this);
+    this.onDialogOpen = this.onDialogOpen.bind(this);
+    this.onShareDialogOn = this.onShareDialogOn.bind(this);
+    this.onEditDialogOn = this.onEditDialogOn.bind(this);
+    this.onDeleteDialogOn = this.onDeleteDialogOn.bind(this);
 
     this.state = {
       board: [],
@@ -115,24 +119,10 @@ class BoardView extends Component {
   render() {
 
     const styles = {
-      myListViewStyle: {
-        left: "0px",
-        top: "0px",
-        position: "absolute",
-        width: "100%"
-      },
       newBoard: {
         display: "flex",
         flexDirection: "column",
         alignItems: "center"
-      },
-      buttonList: {
-        display: "flex",
-        flexFlow: "row wrap",
-        width: "100%"
-      },
-      buttonStyle: {
-        margin: "30px 0px 0px 30px"
       }
     };
 
@@ -157,36 +147,13 @@ class BoardView extends Component {
 
     return (
       <div style={styles.newBoard}>
-        <div style={styles.buttonList}>
-          <FlatButton
-            style={styles.buttonStyle}
-            label="< Back to boards"
-            onClick={() => this.backToBoards()} />
-          <FlatButton
-            style={styles.buttonStyle}
-            primary={true}
-            label="Add new task"
-            onTouchTap={() => this.onDialogOpen()} />
-          <FlatButton
-            style={styles.buttonStyle}
-            primary={true}
-            label="Share this board"
-            onTouchTap={() => this.onShareDialogOn()} />
-          {this.state.currentUser === this.state.author ? (
-            <div>
-              <FlatButton
-                style={styles.buttonStyle}
-                primary={true}
-                label="Edit this board"
-                onTouchTap={() => this.onEditDialogOn()} />
-              <FlatButton
-                style={styles.buttonStyle}
-                secondary={true}
-                label="Delete this board"
-                onTouchTap={() => this.onDeleteDialogOn()} />
-            </div>
-          ): null}
-        </div>
+        <BoardOptionsComponent
+          onDialogOpen={this.onDialogOpen}
+          onShareDialogOn={this.onShareDialogOn}
+          onEditDialogOn={this.onEditDialogOn}
+          onDeleteDialogOn={this.onDeleteDialogOn}
+          currentUser={this.state.currentUser}
+          author={this.state.author} />
         <UnitBoardComponent
           board={this.state.board}
           boardItems={this.state.boardItems}
@@ -221,8 +188,10 @@ class BoardView extends Component {
 }
 const mapStateToProps = (store, router) => {
   return {
-    token: store.token,
-    userid: store.userid,
+    token: store.loginState.token,
+    userid: store.loginState.userid,
+    personal: store.boardState.personal,
+    shared: store.boardState.shared,
     router: router
   }
 };

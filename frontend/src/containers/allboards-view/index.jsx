@@ -15,18 +15,15 @@ class AllBoardView extends Component {
     super(props);
 
     this.updateLists = this.updateLists.bind(this);
-
-    this.state = {
-      personalLists: [],
-      sharedLists: []
-    };
   }
 
   componentWillMount() {
     if (this.props.token === null)
       window.location.href = "#/";
-    else
+
+    if (this.props.personal.length === 0 && this.props.shared.length === 0) {
       this.getUserBoards();
+    }
   }
 
   getUserBoards() {
@@ -43,10 +40,14 @@ class AllBoardView extends Component {
     let userInfos = JSON.parse(getUserById(this.props.userid, this.props.token));
     let boardShared = JSON.parse(getBoardSharedWithUser(userInfos.username));
 
-    this.setState({
-      personalLists: personal,
-      sharedLists: _.concat(shared, boardShared)
+    this.props.dispatch({
+      type: 'LOAD_BOARDS',
+      board: {
+        personal: personal,
+        shared: _.concat(shared, boardShared)
+      }
     });
+
   }
 
   updateLists() {
@@ -74,8 +75,8 @@ class AllBoardView extends Component {
       <div style={styles.newBoard}>
         <DialogCreateBoardComponent updateLists={this.updateLists} />
         <div style={styles.displayListStyle}>
-            <BoardComponent list={this.state.sharedLists} title="Shared boards" />
-            <BoardComponent list={this.state.personalLists} title="Personal boards" />
+            <BoardComponent list={this.props.shared} title="Shared boards" />
+            <BoardComponent list={this.props.personal} title="Personal boards" />
         </div>
       </div>
     );
@@ -83,8 +84,10 @@ class AllBoardView extends Component {
 }
 const mapStateToProps = (store, router) => {
   return {
-    token: store.token,
-    userid: store.userid,
+    token: store.loginState.token,
+    userid: store.loginState.userid,
+    personal: store.boardState.personal,
+    shared: store.boardState.shared,
     router: router
   }
 };

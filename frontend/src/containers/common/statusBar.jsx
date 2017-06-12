@@ -106,8 +106,10 @@ class StatusBar extends Component {
 }
 const mapStateToProps = (store, router) => {
   return {
-    token: store.token,
-    userid: store.userid,
+    token: store.loginState.token,
+    userid: store.loginState.userid,
+    personal: store.boardState.personal,
+    shared: store.boardState.shared,
     router: router
   }
 };

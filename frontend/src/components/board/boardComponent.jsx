@@ -52,8 +52,8 @@ class BoardComponent extends Component {
 
 const mapStateToProps = (store, router) => {
   return {
-    token: store.token,
-    userid: store.userid,
+    token: store.loginState.token,
+    userid: store.loginState.userid,
     router: router
   }
 };
