@@ -26,7 +26,7 @@ const boardReducer = (state = initialBoardState, action) => {
     return Object.assign({}, state, {personal: action.board.personal, shared: action.board.shared});
   }
   if (action.type === 'UNLOAD_BOARDS') {
-    return Object.assign({}, state, {personal: initialBoardState.personalLists, shared: initialBoardState.sharedLists});
+    return Object.assign({}, state, {personal: initialBoardState.personal, shared: initialBoardState.shared});
   }
   return state;
 };
