@@ -44,8 +44,8 @@ class DialogEditBoardComponent extends Component {
       authorizedUsers: this.props.board.authorizedUsers,
       name: this.props.board.name
     });
-	this.getBoardAuthor();
-	this.getCurrentUser();
+    this.getBoardAuthor();
+    this.getCurrentUser();
   }
   
   getBoardAuthor() {
@@ -63,15 +63,18 @@ class DialogEditBoardComponent extends Component {
   onBoardEdit() {
 	  
     if (!this.state.isGlobal) {
-      this.setState({authorizedUsers: _.remove(this.state.authorizedUsers, (n) => {
+      this.setState({authorizedUsers: _.remove(this.state.authorizedUsers, () => {
         return true;
       })});
     }
-	
+
+    let userInfos = JSON.parse(getUserById(this.props.userid, this.props.token));
+
     const boardInformation = {
       name: this.state.name,
       authorizedUsers: this.state.authorizedUsers,
-      isGlobal: this.state.isGlobal
+      isGlobal: this.state.isGlobal,
+      history: _.concat(this.state.board.history, { task: userInfos.username + " edited the board" })
     };
     let res = editBoard(boardInformation, this.props.board.id);
     if (res) {

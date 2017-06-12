@@ -10,6 +10,10 @@ import PersonIcon from 'material-ui/svg-icons/social/person.js'
 import DialogEditBoardComponent from './dialogEditTaskComponent.jsx';
 
 import { deleteBoardItem, updateBoardItem, getTaskAuthor } from '../../actions/boarditem.js';
+import { getBoard, editBoard } from '../../actions/board.js';
+import { getUserById } from '../../actions/authentication.js';
+
+import _ from 'lodash';
 
 class TaskComponent extends Component {
 
@@ -17,6 +21,7 @@ class TaskComponent extends Component {
     super(props);
 
     this.onDialogEditTaskOff = this.onDialogEditTaskOff.bind(this);
+    this.onBoardEdit = this.onBoardEdit.bind(this);
 
     this.state = {
       isDialogOpen: false,
@@ -42,8 +47,23 @@ class TaskComponent extends Component {
 
   onDeleteTask() {
     let res = deleteBoardItem(this.props.item.id);
-    if (res)
+    if (res) {
+      this.onBoardEdit(" deleted the task : ");
       this.props.getBoardItems(this.props.boardId);
+    }
+  }
+
+  onBoardEdit(message) {
+    let board = JSON.parse(getBoard(this.props.boardId));
+    let userInfos = JSON.parse(getUserById(this.props.userid, this.props.token));
+
+    const boardInformation = {
+      name: board.name,
+      authorizedUsers: board.authorizedUsers,
+      isGlobal: board.isGlobal,
+      history: _.concat(board.history, { task: userInfos.username + message + this.props.item.name })
+    };
+    editBoard(boardInformation, board.id);
   }
 
   handleDone() {
@@ -51,8 +71,13 @@ class TaskComponent extends Component {
       isDone: !this.props.item.isDone
     };
     let res = updateBoardItem(this.props.item.id, taskInformation);
-    if (res)
+    if (res) {
       this.props.getBoardItems(this.props.boardId);
+      if (!this.props.item.isDone)
+        this.onBoardEdit(" finished the task : ");
+      else
+        this.onBoardEdit(" unfinished the task : ");
+    }
   }
 
   onDialogEditTaskOn() {
@@ -68,6 +93,7 @@ class TaskComponent extends Component {
       isDone: this.props.item.isDone,
       isDialogOpen: false
     });
+    this.onBoardEdit(" edited the task : ");
   }
 
   getTaskAuthor() {

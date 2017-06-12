@@ -20,10 +20,7 @@ class AllBoardView extends Component {
   componentWillMount() {
     if (this.props.token === null)
       window.location.href = "#/";
-
-    if (this.props.personal.length === 0 && this.props.shared.length === 0) {
-      this.getUserBoards();
-    }
+    this.getUserBoards();
   }
 
   getUserBoards() {

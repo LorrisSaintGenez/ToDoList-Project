@@ -7,6 +7,10 @@ import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 
 import { addBoardItem } from '../../actions/boarditem.js';
+import { editBoard, getBoard } from '../../actions/board.js';
+import { getUserById } from '../../actions/authentication.js';
+
+import _ from 'lodash';
 
 class DialogCreateTaskComponent extends Component {
 
@@ -44,8 +48,22 @@ class DialogCreateTaskComponent extends Component {
     let res = addBoardItem(itemInformations);
     if (res) {
       this.props.getBoardItems(this.props.board.id);
+      this.onBoardEdit();
       this.onDialogClose();
     }
+  }
+
+  onBoardEdit() {
+    let board = JSON.parse(getBoard(this.props.board.id));
+    let userInfos = JSON.parse(getUserById(this.props.userid, this.props.token));
+
+    const boardInformation = {
+      name: board.name,
+      authorizedUsers: board.authorizedUsers,
+      isGlobal: board.isGlobal,
+      history: _.concat(board.history, { task: userInfos.username + " added the task : " + this.state.name })
+    };
+    editBoard(boardInformation, board.id);
   }
 
   onDialogClose() {

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { connect } from 'react-redux';
 
 import FlatButton from 'material-ui/FlatButton';
 
@@ -42,6 +41,11 @@ class BoardOptionsComponent extends Component {
           primary={true}
           label="Share this board"
           onTouchTap={() => this.props.onShareDialogOn()} />
+        <FlatButton
+          style={styles.buttonStyle}
+          primary={true}
+          label="See the historical"
+          onTouchTap={() => this.props.onHistoricalDialogOn()} />
         {this.props.currentUser === this.props.author ? (
           <div>
             <FlatButton

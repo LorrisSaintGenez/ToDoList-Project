@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
+import {List, ListItem} from 'material-ui/List';
 
 import UnitBoardComponent from '../../components/board/unitBoardComponent.jsx';
 import DialogCreateTaskComponent from '../../components/task/dialogCreateTaskComponent.jsx';
@@ -12,6 +13,8 @@ import BoardOptionsComponent from '../../components/board/boardOptionsComponent.
 import { getBoard, deleteBoard, getBoardOwner } from '../../actions/board.js';
 import { getBoardItems, deleteBoardItem } from '../../actions/boarditem.js';
 import { getUserById } from '../../actions/authentication.js';
+
+import _ from 'lodash';
 
 class BoardView extends Component {
 
@@ -26,15 +29,18 @@ class BoardView extends Component {
     this.onShareDialogOn = this.onShareDialogOn.bind(this);
     this.onEditDialogOn = this.onEditDialogOn.bind(this);
     this.onDeleteDialogOn = this.onDeleteDialogOn.bind(this);
+    this.onHistoricalDialogOn = this.onHistoricalDialogOn.bind(this);
 
     this.state = {
       board: [],
       boardItems: [],
+      historicalItems: [],
       isDialogOpen: false,
       isDeleteDialogOpen: false,
       isDeleting: false,
       isEditDialogOn: false,
       isShareDialogOn: false,
+      isHistoricalDialogOpen: false,
       author: "",
       currentUser: ""
     };
@@ -108,6 +114,25 @@ class BoardView extends Component {
     this.setState({isShareDialogOn: false});
   }
 
+  onHistoricalDisplay() {
+    let tmpHistorical = [];
+    let res = JSON.parse(getBoard(this.props.params.id));
+    _.forEach(res.history, item => {
+      tmpHistorical = _.concat(tmpHistorical, item.task);
+    });
+
+    this.setState({historicalItems: tmpHistorical});
+  }
+
+  onHistoricalDialogOn() {
+    this.onHistoricalDisplay();
+    this.setState({isHistoricalDialogOpen: true});
+  }
+
+  onHistoricalDialogOff() {
+    this.setState({isHistoricalDialogOpen: false});
+  }
+
   getBoard() {
     let res = JSON.parse(getBoard(this.props.params.id));
     this.setState({board: res});
@@ -123,6 +148,11 @@ class BoardView extends Component {
         display: "flex",
         flexDirection: "column",
         alignItems: "center"
+      },
+      listStyle: {
+        maxHeight: "250px",
+        flexFlow: "column wrap",
+        overflowY: "auto"
       }
     };
 
@@ -145,6 +175,12 @@ class BoardView extends Component {
         onTouchTap={() => this.onShareDialogOff()}/>
     ];
 
+    const actionHistorical = [
+      <FlatButton
+        label="Ok"
+        onTouchTap={() => this.onHistoricalDialogOff()}/>
+    ];
+
     return (
       <div style={styles.newBoard}>
         <BoardOptionsComponent
@@ -152,6 +188,7 @@ class BoardView extends Component {
           onShareDialogOn={this.onShareDialogOn}
           onEditDialogOn={this.onEditDialogOn}
           onDeleteDialogOn={this.onDeleteDialogOn}
+          onHistoricalDialogOn={this.onHistoricalDialogOn}
           currentUser={this.state.currentUser}
           author={this.state.author} />
         <UnitBoardComponent
@@ -170,6 +207,21 @@ class BoardView extends Component {
           modal={false}
           open={this.state.isDeleteDialogOpen}
           onRequestClose={() => this.onDeleteDialogOff()} />
+        <Dialog
+          title="History of the board "
+          open={this.state.isHistoricalDialogOpen}
+          actions={actionHistorical}
+          onRequestClose={() => this.onHistoricalDialogOff()}>
+          <List style={styles.listStyle}>
+          {_.map(this.state.historicalItems, (item, index) => {
+            return (
+              <ListItem key={index}>
+                {item}
+              </ListItem>
+            );
+          })}
+          </List>
+        </Dialog>
         <DialogCreateTaskComponent
           isDialogOpen={this.state.isDialogOpen}
           onDialogClose={this.onDialogClose}

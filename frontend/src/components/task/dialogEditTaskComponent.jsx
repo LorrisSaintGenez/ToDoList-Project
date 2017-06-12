@@ -6,7 +6,11 @@ import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 
+import _ from 'lodash';
+
 import { updateBoardItem } from '../../actions/boarditem.js';
+import { editBoard, getBoard } from '../../actions/board.js';
+import { getUserById } from '../../actions/authentication.js';
 
 class DialogEditBoardComponent extends Component {
 
@@ -66,8 +70,23 @@ class DialogEditBoardComponent extends Component {
     let res = updateBoardItem(this.props.item.id, taskInformation);
     if (res) {
       this.props.getBoardItems(this.props.boardId);
+      this.onBoardEdit();
       this.props.onDialogEditTaskOff();
     }
+  }
+
+  onBoardEdit() {
+
+    let board = JSON.parse(getBoard(this.props.boardId));
+    let userInfos = JSON.parse(getUserById(this.props.userid, this.props.token));
+
+    const boardInformation = {
+      name: board.name,
+      authorizedUsers: board.authorizedUsers,
+      isGlobal: board.isGlobal,
+      history: _.concat(board.history, { task: userInfos.username + " edited the task : " + this.state.name })
+    };
+    editBoard(boardInformation, board.id);
   }
 
   render() {

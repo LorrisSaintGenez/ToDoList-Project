@@ -53,12 +53,14 @@ class DialogCreateBoardComponent extends Component {
   }
 
   onBoardCreate() {
+    let userInfos = JSON.parse(getUserById(this.props.userid, this.props.token));
     const boardInformation = {
       name: this.state.name,
       authorizedUsers: this.state.authorizedUsers,
       isGlobal: this.state.isGlobal,
       authorId: this.props.userid,
-      sharedToken: this.generateRandomString()
+      sharedToken: this.generateRandomString(),
+      history: [{ task: this.state.name + " was created by " + userInfos.username }]
     };
     let res = addBoard(boardInformation);
     if (res) {
@@ -68,6 +70,34 @@ class DialogCreateBoardComponent extends Component {
     else {
       this.setState({error: true})
     }
+  }
+
+  joinBoardWithToken() {
+    let board = JSON.parse(getBoardWithToken(this.state.sharedToken));
+    let res = JSON.parse(getUserById(this.props.userid, this.props.token));
+    if (board && res && (board.authorId !== res.id) && !board.authorizedUsers.some((e) => {return e.username === res.username})) {
+      let tmp_arr = [];
+      let user = {
+        username: res.username
+      };
+      tmp_arr.push(user);
+      let authorizedUsers = _.concat(board.authorizedUsers, tmp_arr);
+      const boardInformations = {
+        name: board.name,
+        authorizedUsers: authorizedUsers,
+        isGlobal: true,
+        authorId: board.userid,
+        sharedToken: board.sharedToken,
+        history: _.concat(board.history, { task: res.username + " joined the board" })
+      };
+      let joinBoard = editBoard(boardInformations, board.id);
+      if (joinBoard) {
+        this.onDialogClose();
+        this.props.updateLists();
+      }
+    }
+    else
+      this.setState({isTokenInvalid: true});
   }
 
   onDialogOpen() {
@@ -127,33 +157,6 @@ class DialogCreateBoardComponent extends Component {
     if (this.state.isTokenInvalid)
       this.setState({isTokenInvalid: false});
     this.setState({sharedToken: token});
-  }
-
-  joinBoardWithToken() {
-    let board = JSON.parse(getBoardWithToken(this.state.sharedToken));
-    let res = JSON.parse(getUserById(this.props.userid, this.props.token));
-    if (board && res && (board.authorId !== res.id) && !board.authorizedUsers.some((e) => {return e.username === res.username})) {
-      let tmp_arr = [];
-      let user = {
-        username: res.username
-      };
-      tmp_arr.push(user);
-      let authorizedUsers = _.concat(board.authorizedUsers, tmp_arr);
-      const boardInformations = {
-        name: board.name,
-        authorizedUsers: authorizedUsers,
-        isGlobal: true,
-        authorId: board.userid,
-        sharedToken: board.sharedToken
-      };
-      let joinBoard = editBoard(boardInformations, board.id);
-      if (joinBoard) {
-        this.onDialogClose();
-        this.props.updateLists();
-      }
-    }
-    else
-      this.setState({isTokenInvalid: true});
   }
 
   render() {
