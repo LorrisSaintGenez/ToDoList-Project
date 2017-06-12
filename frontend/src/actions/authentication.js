@@ -1,6 +1,8 @@
+const serverUrl = "http://localhost:3000";
+
 export const addConnection = signupInformations => {
   let xhttp = new XMLHttpRequest();
-  xhttp.open("POST", "http://localhost:3000/api/todoUsers", false);
+  xhttp.open("POST", serverUrl + "/api/todoUsers", false);
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send(JSON.stringify(signupInformations));
   return xhttp.responseText;
@@ -8,7 +10,7 @@ export const addConnection = signupInformations => {
 
 export const loginConnection = signinInformations => {
   let xhttp = new XMLHttpRequest();
-  xhttp.open("POST", "http://localhost:3000/api/todoUsers/login", false);
+  xhttp.open("POST", serverUrl + "/api/todoUsers/login", false);
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send(JSON.stringify(signinInformations));
   return xhttp.status === 200 && xhttp.readyState === 4 ? xhttp.responseText : null;
@@ -16,7 +18,7 @@ export const loginConnection = signinInformations => {
 
 export const getUserByUsername = username => {
   let xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "http://localhost:3000/api/todoUsers/getUserByUsername?username=" + username, false);
+  xhttp.open("GET", serverUrl + "/api/todoUsers/getUserByUsername?username=" + username, false);
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send();
   return xhttp.status === 200 && xhttp.readyState === 4
@@ -24,7 +26,7 @@ export const getUserByUsername = username => {
 
 export const getUserById = (id, access_token) => {
   let xhttp = new XMLHttpRequest();
-  xhttp.open("GET", "http://localhost:3000/api/todoUsers/" + id + "?access_token=" + access_token, false);
+  xhttp.open("GET", serverUrl + "/api/todoUsers/" + id + "?access_token=" + access_token, false);
   xhttp.setRequestHeader("Content-type", "application/json");
   xhttp.send();
   return xhttp.status === 200 && xhttp.readyState === 4 ? xhttp.responseText : null;
