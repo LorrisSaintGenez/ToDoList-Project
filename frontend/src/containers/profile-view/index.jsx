@@ -52,12 +52,12 @@ class ProfileView extends Component {
   render() {
 
     const styles = {
-	  	textColor: {
-        color: "#5f5f5f"
+	  textColor: {
+		color: "#5f5f5f"
       },
-			infoView: {
-				marginLeft: "20px"
-			}
+	  infoView: {
+		marginLeft: "20px"
+      }
     };
 
     if (this.props.token === null)

@@ -13,11 +13,24 @@ class HomeView extends Component {
 
   render() {
     const styles = {
+		homeInfo: {
+			marginTop: "50px",
+			textAlign: "center"
+        },
+		features: {
+			color: "#5f5f5f",
+			lineHeight: "80px"
+        }
     };
 
     return (
-      <div>
-        Welcome on ToDoList !
+      <div style={styles.homeInfo}>
+		<h1>Welcome on ToDoList !</h1>
+		<div style={styles.features}>
+	   	  <h3>Create todo lists</h3>
+		  <h3>Share them with friends</h3>
+		  <h3>Add and complete tasks</h3>
+		</div>
       </div>
     );
   }
