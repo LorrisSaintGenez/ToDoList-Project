@@ -3,8 +3,12 @@
 Welcome !
 
 First of all, you need dependencies !
+
 Go to backend and frontend, and in both of them, use the following command :
 ``` npm install ``` or ``` yarn install ```
+
+Then, in the backend, use the following command :
+``` npm build ``` or ``` yarn build ```
 
 To start the server, go to backend, then use the following command :
 ``` npm start ``` or ``` yarn start ```
