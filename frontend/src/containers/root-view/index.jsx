@@ -19,6 +19,17 @@ class RootView extends Component {
   constructor(props) {
     super(props);
     injectTapEventPlugin();
+
+    this.state = {
+      routes:
+        <Route component={StatusBar}>
+          <Route exact path='/' component={HomeView} />
+          <Route path='/profile' component={ProfileView} />
+          <Route path='/login' component={ConnectionView} />
+          <Route path='/list' component={AllBoardView} />
+          <Route path='/list/:id' component={BoardView} />
+        </Route>
+    }
   }
 
   getCookieValue(key) {
@@ -46,19 +57,10 @@ class RootView extends Component {
       if (token)
         this.props.dispatch({ type: 'LOGIN_ACT', auth: {token: token, userid: userid} });
 
-    const routes =
-      <Route component={StatusBar}>
-        <Route exact path='/' component={HomeView} />
-        <Route path='/profile' component={ProfileView} />
-        <Route path='/login' component={ConnectionView} />
-        <Route path='/list' component={AllBoardView} />
-        <Route path='/list/:id' component={BoardView} />
-      </Route>;
-
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <Router history={hashHistory}>
-          {routes}
+          {this.state.routes}
         </Router>
       </MuiThemeProvider>
     );

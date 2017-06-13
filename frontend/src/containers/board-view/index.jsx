@@ -10,7 +10,7 @@ import DialogCreateTaskComponent from '../../components/task/dialogCreateTaskCom
 import DialogEditBoardComponent from '../../components/board/dialogEditBoardComponent.jsx';
 import BoardOptionsComponent from '../../components/board/boardOptionsComponent.jsx';
 
-import { getBoard, deleteBoard, getBoardOwner } from '../../actions/board.js';
+import { getBoard, deleteBoard, getBoardOwner, editBoard } from '../../actions/board.js';
 import { getBoardItems, deleteBoardItem } from '../../actions/boarditem.js';
 import { getUserById } from '../../actions/authentication.js';
 
@@ -30,6 +30,8 @@ class BoardView extends Component {
     this.onEditDialogOn = this.onEditDialogOn.bind(this);
     this.onDeleteDialogOn = this.onDeleteDialogOn.bind(this);
     this.onHistoricalDialogOn = this.onHistoricalDialogOn.bind(this);
+    this.onLeaveDialogOn = this.onLeaveDialogOn.bind(this);
+    this.onBoardLeave = this.onBoardLeave.bind(this);
 
     this.state = {
       board: [],
@@ -41,6 +43,7 @@ class BoardView extends Component {
       isEditDialogOn: false,
       isShareDialogOn: false,
       isHistoricalDialogOpen: false,
+      isLeaveDialogOpen: false,
       author: "",
       currentUser: ""
     };
@@ -114,6 +117,37 @@ class BoardView extends Component {
     this.setState({isShareDialogOn: false});
   }
 
+  onLeaveDialogOn() {
+    this.setState({isLeaveDialogOpen: true});
+  }
+
+  onLeaveDialogOff() {
+    this.setState({isLeaveDialogOpen: false});
+  }
+
+  onBoardLeave() {
+    let tmpAuthorized = this.state.board.authorizedUsers;
+    _.remove(tmpAuthorized, user => {
+      return user.username === this.state.currentUser;
+    });
+
+    this.onBoardEdit(tmpAuthorized);
+  }
+
+  onBoardEdit(authorizedPerson) {
+    const boardInformation = {
+      name: this.state.board.name,
+      authorizedUsers: authorizedPerson,
+      isGlobal: this.state.board.isGlobal,
+      history: _.concat(this.state.board.history, { task: this.state.currentUser+  " left the board" })
+    };
+    let res = editBoard(boardInformation, this.state.board.id);
+    if (res) {
+      this.onLeaveDialogOff();
+      window.location.href = "#/list";
+    }
+  }
+
   onHistoricalDisplay() {
     let tmpHistorical = [];
     let res = JSON.parse(getBoard(this.props.params.id));
@@ -169,6 +203,16 @@ class BoardView extends Component {
         secondary={true}/>
     ];
 
+    const actionsLeave = [
+      <FlatButton
+        label="No"
+        onTouchTap={() => this.onLeaveDialogOff()}/>,
+      <FlatButton
+        label="Yes"
+        onTouchTap={() => this.onBoardLeave()}
+        secondary={true}/>
+    ];
+
     const actionShare = [
       <FlatButton
         label="Ok"
@@ -189,6 +233,7 @@ class BoardView extends Component {
           onEditDialogOn={this.onEditDialogOn}
           onDeleteDialogOn={this.onDeleteDialogOn}
           onHistoricalDialogOn={this.onHistoricalDialogOn}
+          onLeaveDialogOn={this.onLeaveDialogOn}
           currentUser={this.state.currentUser}
           author={this.state.author} />
         <UnitBoardComponent
@@ -201,6 +246,12 @@ class BoardView extends Component {
           modal={false}
           open={this.state.isShareDialogOn}
           onRequestClose={() => this.onShareDialogOff()} />
+        <Dialog
+          title="Are you sure you want to leave this board ?"
+          actions={actionsLeave}
+          modal={false}
+          open={this.state.isLeaveDialogOpen}
+          onRequestClose={() => this.onLeaveDialogOff()} />
         <Dialog
           title="Are you sure you want to delete this board ?"
           actions={actions}

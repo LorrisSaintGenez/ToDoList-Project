@@ -59,7 +59,11 @@ class BoardOptionsComponent extends Component {
               label="Delete this board"
               onTouchTap={() => this.props.onDeleteDialogOn()} />
           </div>
-        ): null}
+        ): <FlatButton
+          style={styles.buttonStyle}
+          secondary={true}
+          label="Leave this board"
+          onTouchTap={() => this.props.onLeaveDialogOn()} />}
       </div>
     );
   }
