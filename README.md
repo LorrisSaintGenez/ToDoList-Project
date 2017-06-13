@@ -2,7 +2,7 @@
 
 Welcome !
 
-First of all, you need dependancies !
+First of all, you need dependencies !
 Go to backend and frontend, and in both of them, use the following command :
 ``` npm install ``` or ``` yarn install ```
 
