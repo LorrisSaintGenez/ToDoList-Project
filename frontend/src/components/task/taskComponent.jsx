@@ -134,6 +134,11 @@ class TaskComponent extends Component {
             <img src={this.props.item.imageUrl} />
           </CardMedia>
         ) : null}
+        {this.props.item.videoUrl !== null ? (
+          <CardMedia>
+            <iframe width="420" height="345" src={this.props.item.videoUrl} frameBorder="0" allowFullScreen/>
+          </CardMedia>
+        ) : null}
         <CardTitle title={this.props.item.name} />
         <CardText>
           {this.props.item.description}
