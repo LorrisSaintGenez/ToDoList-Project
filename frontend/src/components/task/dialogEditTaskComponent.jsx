@@ -21,7 +21,9 @@ class DialogEditBoardComponent extends Component {
       name: "",
       description: "",
       hasImage: false,
-      imageUrl: null
+      hasVideo: false,
+      imageUrl: null,
+      videoUrl: null
     }
   }
 
@@ -34,7 +36,9 @@ class DialogEditBoardComponent extends Component {
       name: this.props.item.name,
       description: this.props.item.description,
       imageUrl: this.props.item.imageUrl,
-      hasImage: this.props.item.imageUrl !== null
+      videoUrl: this.props.item.videoUrl,
+      hasImage: this.props.item.imageUrl !== null,
+      hasVideo: this.props.item.videoUrl !== null
     });
   }
 
@@ -49,11 +53,25 @@ class DialogEditBoardComponent extends Component {
   onImageHandler() {
     if (this.state.hasImage)
       this.setState({imageUrl: null});
+    this.setState({videoUrl: null});
+    this.setState({hasVideo: false});
     this.setState({hasImage: !this.state.hasImage});
+  }
+
+  onVideoHandler() {
+    if (this.state.hasVideo)
+      this.setState({videoUrl: null});
+    this.setState({imageUrl: null});
+    this.setState({hasImage: false});
+    this.setState({hasVideo: !this.state.hasVideo});
   }
 
   onImageUrlHandler(url) {
     this.setState({imageUrl: url});
+  }
+
+  onVideoUrlHandler(url) {
+    this.setState({videoUrl: url});
   }
 
   onDialogOff() {
@@ -65,7 +83,8 @@ class DialogEditBoardComponent extends Component {
     const taskInformation = {
       name: this.state.name,
       description: this.state.description,
-      imageUrl: this.state.hasImage ? this.state.imageUrl : null
+      imageUrl: this.state.hasImage ? this.state.imageUrl : null,
+      videoUrl: this.state.videoUrl ? this.state.videoUrl.replace("watch?v=", "embed/") : null
     };
     let res = updateBoardItem(this.props.item.id, taskInformation);
     if (res) {
@@ -76,7 +95,6 @@ class DialogEditBoardComponent extends Component {
   }
 
   onBoardEdit() {
-
     let board = JSON.parse(getBoard(this.props.boardId));
     let userInfos = JSON.parse(getUserById(this.props.userid, this.props.token));
 
@@ -103,8 +121,8 @@ class DialogEditBoardComponent extends Component {
         disabled={
           this.state.name === "" ||
           this.state.name.length > 40 ||
-          (this.state.hasImage &&
-          (this.state.imageUrl === null || this.state.imageUrl === ""))}
+          (this.state.hasImage && (this.state.imageUrl === null || this.state.imageUrl === "")) ||
+          (this.state.hasVideo && (this.state.videoUrl === null || this.state.videoUrl === ""))}
         label="Edit task"
         onTouchTap={() => this.onTaskEdit()}
         primary={true}/>
@@ -139,6 +157,18 @@ class DialogEditBoardComponent extends Component {
             hintText="Image's url"
             defaultValue={this.state.imageUrl}
             onChange={(e) => this.onImageUrlHandler(e.target.value)} />
+        ) : null}
+        <Checkbox
+          defaultChecked={this.state.hasVideo}
+          style={styles.checkBoxStyle}
+          onCheck={() => this.onVideoHandler()}
+          label="Add video" />
+        {this.state.hasVideo ? (
+          <TextField
+            type="text"
+            hintText="Video's url"
+            defaultValue={this.state.videoUrl}
+            onChange={(e) => this.onVideoUrlHandler(e.target.value)} />
         ) : null}
       </Dialog>
     );

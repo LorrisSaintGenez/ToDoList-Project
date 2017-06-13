@@ -22,7 +22,9 @@ class DialogCreateTaskComponent extends Component {
       description: "",
       isDone: false,
       hasImage: false,
-      imageUrl: null
+      hasVideo: false,
+      imageUrl: null,
+      videoUrl: null
     };
   }
 
@@ -32,7 +34,9 @@ class DialogCreateTaskComponent extends Component {
       description: "",
       isDone: false,
       hasImage: false,
-      imageUrl: null
+      hasVideo: false,
+      imageUrl: null,
+      videoUrl: null
     });
   }
 
@@ -43,7 +47,8 @@ class DialogCreateTaskComponent extends Component {
       isDone: this.state.isDone,
       authorId: this.props.userid,
       boardId: this.props.board.id,
-      imageUrl: this.state.imageUrl
+      imageUrl: this.state.imageUrl,
+      videoUrl: this.state.videoUrl ? this.state.videoUrl.replace("watch?v=", "embed/") : null
     };
     let res = addBoardItem(itemInformations);
     if (res) {
@@ -86,11 +91,25 @@ class DialogCreateTaskComponent extends Component {
   onImageHandler() {
     if (this.state.hasImage)
       this.setState({imageUrl: null});
+    this.setState({videoUrl: null});
+    this.setState({hasVideo: false});
     this.setState({hasImage: !this.state.hasImage});
+  }
+
+  onVideoHandler() {
+    if (this.state.hasVideo)
+      this.setState({videoUrl: null});
+    this.setState({imageUrl: null});
+    this.setState({hasImage: false});
+    this.setState({hasVideo: !this.state.hasVideo});
   }
 
   onImageUrlHandler(url) {
     this.setState({imageUrl: url});
+  }
+
+  onVideoUrlHandler(url) {
+    this.setState({videoUrl: url});
   }
 
   render() {
@@ -107,7 +126,8 @@ class DialogCreateTaskComponent extends Component {
         disabled={
           this.state.name === "" ||
           this.state.name.length > 40 ||
-          (this.state.hasImage && (this.state.imageUrl === null || this.state.imageUrl === ""))}
+          (this.state.hasImage && (this.state.imageUrl === null || this.state.imageUrl === "")) ||
+          (this.state.hasVideo && (this.state.videoUrl === null || this.state.videoUrl === ""))}
         label="Add task"
         onTouchTap={() => this.onTaskCreate()}
         primary={true}/>
@@ -134,6 +154,7 @@ class DialogCreateTaskComponent extends Component {
           onCheck={() => this.onDoneHandler()}
           label="Done" />
         <Checkbox
+          checked={this.state.hasImage}
           style={styles.checkBoxStyle}
           onCheck={() => this.onImageHandler()}
           label="Add image" />
@@ -142,6 +163,17 @@ class DialogCreateTaskComponent extends Component {
             type="text"
             hintText="Image's url"
             onChange={(e) => this.onImageUrlHandler(e.target.value)} />
+        ) : null}
+        <Checkbox
+          checked={this.state.hasVideo}
+          style={styles.checkBoxStyle}
+          onCheck={() => this.onVideoHandler()}
+          label="Add video" />
+        {this.state.hasVideo ? (
+          <TextField
+            type="text"
+            hintText="Video's url"
+            onChange={(e) => this.onVideoUrlHandler(e.target.value)} />
         ) : null}
       </Dialog>
     );
